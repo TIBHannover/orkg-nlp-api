@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+
+  orkgnlp-api:
+    build: .
+    ports:
+      - '4321:4321'
+    container_name: orkgnlp-api_container
