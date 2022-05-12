@@ -1,10 +1,10 @@
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 
-from app.routers import annotate
+from app.routers import clustering
 
 app = FastAPI(title='ORKG-NLP-API')
-app.include_router(annotate.router)
+app.include_router(clustering.router)
 
 
 @app.get('/', response_class=HTMLResponse)
