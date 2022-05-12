@@ -20,6 +20,11 @@ cd orkg-nlp-api
 pip install -r --upgrade requirements
 gunicorn app.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:4321
 ```
+For local development you may run the web server using ``uvicorn`` with the ``--reload`` option:
+
+```commandline
+uvicorn app.main:app --host 0.0.0.0 --port 4321 --reload
+```
 
 ## API Documentation
 After successfully running the application, check the documentation at `localhost:4321/docs`
