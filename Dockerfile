@@ -13,6 +13,13 @@ RUN poetry export -f requirements.txt --output requirements.txt --without-hashes
 FROM python:3.7
 LABEL maintainer="Omar Arab Oghli <Omar.ArabOghli@tib.eu>"
 
+# Set the locale needed for onnxruntime
+RUN apt-get clean && apt-get update && apt-get install -y locales
+RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+
 WORKDIR /orkg-nlp-api
 
 COPY --from=requirements-stage /tmp/requirements.txt /orkg-nlp-api/requirements.txt

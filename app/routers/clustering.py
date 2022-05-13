@@ -8,10 +8,9 @@ router = APIRouter(
     tags=['clustering']
 )
 
-predicates_service = PredicatesService()
-
 
 @router.get('/predicates', response_model=PredicatesClusteringResponse, status_code=200)
 def recommends_predicates(title: str, abstract: str):
+    predicates_service = PredicatesService()
     return predicates_service.recommend(title, abstract)
 

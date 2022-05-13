@@ -2,8 +2,10 @@ import datetime
 import uuid
 
 from orkgnlp.clustering import PredicatesRecommender
+from orkgnlp.util.decorators import singleton
 
 
+@singleton
 class PredicatesService:
 
     def __init__(self):
