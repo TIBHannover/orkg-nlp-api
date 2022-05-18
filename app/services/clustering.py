@@ -1,8 +1,8 @@
 import datetime
 import uuid
 
-from orkgnlp.clustering import PredicatesRecommender
-from orkgnlp.util.decorators import singleton
+from orkgnlp.clustering import PredicatesRecommender, BioassaysSemantifier
+from orkgnlp.common.util.decorators import singleton
 
 
 @singleton
@@ -18,4 +18,20 @@ class PredicatesService:
             'timestamp': datetime.datetime.now(),
             'uuid': uuid.uuid4(),
             'predicates': predicates
+        }
+
+
+@singleton
+class BioassaysService:
+
+    def __init__(self):
+        self.semantifier = BioassaysSemantifier()
+
+    def semantify(self, text: str):
+        labels = self.semantifier.semantify(text)
+
+        return {
+            'timestamp': datetime.datetime.now(),
+            'uuid': uuid.uuid4(),
+            'labels': labels
         }
