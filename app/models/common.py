@@ -13,3 +13,7 @@ class Predicate(BaseModel):
     id: str
     label: str
 
+
+class Resource(BaseModel):
+    id: str
+    label: str
