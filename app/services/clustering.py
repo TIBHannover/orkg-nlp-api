@@ -12,7 +12,7 @@ class PredicatesService:
         self.recommender = PredicatesRecommender()
 
     def recommend(self, title: str, abstract: str):
-        predicates = self.recommender.recommend(title, abstract)
+        predicates = self.recommender(title, abstract)
 
         return {
             'timestamp': datetime.datetime.now(),
@@ -28,7 +28,7 @@ class BioassaysService:
         self.semantifier = BioassaysSemantifier()
 
     def semantify(self, text: str):
-        labels = self.semantifier.semantify(text)
+        labels = self.semantifier(text)
 
         return {
             'timestamp': datetime.datetime.now(),

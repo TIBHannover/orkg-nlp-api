@@ -24,6 +24,7 @@ WORKDIR /orkg-nlp-api
 
 COPY --from=requirements-stage /tmp/requirements.txt /orkg-nlp-api/requirements.txt
 
+RUN pip install --upgrade pip
 RUN pip install --no-cache-dir --upgrade -r /orkg-nlp-api/requirements.txt
 
 COPY ./app /orkg-nlp-api/app
