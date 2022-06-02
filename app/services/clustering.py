@@ -5,8 +5,11 @@ from orkgnlp.clustering import PredicatesRecommender, BioassaysSemantifier
 from orkgnlp.common.util.decorators import singleton
 
 
-@singleton
 class PredicatesService:
+
+    @singleton
+    def __new__(cls):
+        pass
 
     def __init__(self):
         self.recommender = PredicatesRecommender()
@@ -21,8 +24,11 @@ class PredicatesService:
         }
 
 
-@singleton
 class BioassaysService:
+
+    @singleton
+    def __new__(cls):
+        pass
 
     def __init__(self):
         self.semantifier = BioassaysSemantifier()

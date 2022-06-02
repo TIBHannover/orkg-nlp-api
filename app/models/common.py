@@ -1,7 +1,8 @@
 import datetime
-from uuid import UUID
 
+from uuid import UUID
 from pydantic import BaseModel
+from typing import List
 
 
 class Response(BaseModel):
@@ -17,3 +18,8 @@ class Predicate(BaseModel):
 class Resource(BaseModel):
     id: str
     label: str
+
+
+class Annotation(BaseModel):
+    concept: str
+    entities: List[str]
