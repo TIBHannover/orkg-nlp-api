@@ -1,0 +1,384 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "ORKG-NLP-API",
+        "version": "0.1.0"
+    },
+    "paths": {
+        "/clustering/predicates": {
+            "get": {
+                "tags": [
+                    "clustering"
+                ],
+                "summary": "Recommends Predicates",
+                "operationId": "recommends_predicates_clustering_predicates_get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Title",
+                            "type": "string"
+                        },
+                        "name": "title",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Abstract",
+                            "type": "string"
+                        },
+                        "name": "abstract",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PredicatesClusteringResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/clustering/bioassays": {
+            "get": {
+                "tags": [
+                    "clustering"
+                ],
+                "summary": "Semantifies Bioassays",
+                "operationId": "semantifies_bioassays_clustering_bioassays_get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Text",
+                            "type": "string"
+                        },
+                        "name": "text",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BioAssaysClusteringResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/annotation/csner": {
+            "get": {
+                "tags": [
+                    "annotation"
+                ],
+                "summary": "Annotates Paper",
+                "operationId": "annotates_paper_annotation_csner_get",
+                "parameters": [
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Title",
+                            "type": "string"
+                        },
+                        "name": "title",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Abstract",
+                            "type": "string"
+                        },
+                        "name": "abstract",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CSNerAnnotationResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Annotation": {
+                "title": "Annotation",
+                "required": [
+                    "concept",
+                    "entities"
+                ],
+                "type": "object",
+                "properties": {
+                    "concept": {
+                        "title": "Concept",
+                        "type": "string"
+                    },
+                    "entities": {
+                        "title": "Entities",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "BioAssayLabel": {
+                "title": "BioAssayLabel",
+                "required": [
+                    "property",
+                    "resources"
+                ],
+                "type": "object",
+                "properties": {
+                    "property": {
+                        "$ref": "#/components/schemas/Predicate"
+                    },
+                    "resources": {
+                        "title": "Resources",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Resource"
+                        }
+                    }
+                }
+            },
+            "BioAssaysClusteringResponse": {
+                "title": "BioAssaysClusteringResponse",
+                "required": [
+                    "timestamp",
+                    "uuid",
+                    "labels"
+                ],
+                "type": "object",
+                "properties": {
+                    "timestamp": {
+                        "title": "Timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "uuid": {
+                        "title": "Uuid",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "labels": {
+                        "title": "Labels",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/BioAssayLabel"
+                        }
+                    }
+                }
+            },
+            "CSNerAnnotationResponse": {
+                "title": "CSNerAnnotationResponse",
+                "required": [
+                    "timestamp",
+                    "uuid",
+                    "annotations"
+                ],
+                "type": "object",
+                "properties": {
+                    "timestamp": {
+                        "title": "Timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "uuid": {
+                        "title": "Uuid",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "annotations": {
+                        "$ref": "#/components/schemas/PaperAnnotations"
+                    }
+                }
+            },
+            "HTTPValidationError": {
+                "title": "HTTPValidationError",
+                "type": "object",
+                "properties": {
+                    "detail": {
+                        "title": "Detail",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        }
+                    }
+                }
+            },
+            "PaperAnnotations": {
+                "title": "PaperAnnotations",
+                "required": [
+                    "title",
+                    "abstract"
+                ],
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "title": "Title",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Annotation"
+                        }
+                    },
+                    "abstract": {
+                        "title": "Abstract",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Annotation"
+                        }
+                    }
+                }
+            },
+            "Predicate": {
+                "title": "Predicate",
+                "required": [
+                    "id",
+                    "label"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "string"
+                    },
+                    "label": {
+                        "title": "Label",
+                        "type": "string"
+                    }
+                }
+            },
+            "PredicatesClusteringResponse": {
+                "title": "PredicatesClusteringResponse",
+                "required": [
+                    "timestamp",
+                    "uuid",
+                    "predicates"
+                ],
+                "type": "object",
+                "properties": {
+                    "timestamp": {
+                        "title": "Timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "uuid": {
+                        "title": "Uuid",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "predicates": {
+                        "title": "Predicates",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Predicate"
+                        }
+                    }
+                }
+            },
+            "Resource": {
+                "title": "Resource",
+                "required": [
+                    "id",
+                    "label"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "string"
+                    },
+                    "label": {
+                        "title": "Label",
+                        "type": "string"
+                    }
+                }
+            },
+            "ValidationError": {
+                "title": "ValidationError",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "type": "object",
+                "properties": {
+                    "loc": {
+                        "title": "Location",
+                        "type": "array",
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        }
+                    },
+                    "msg": {
+                        "title": "Message",
+                        "type": "string"
+                    },
+                    "type": {
+                        "title": "Error Type",
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
