@@ -6,6 +6,8 @@ REST API for the ORKG-NLP python [package](https://orkg-nlp-pypi.readthedocs.io/
 
 We require a python version `3.7` or above.
 
+We also require `Java 8+` in case of using the table extraction service.
+
 ### With ``docker-compose``
 ```commandline
 git clone https://gitlab.com/TIBHannover/orkg/nlp/orkg-nlp-api.git

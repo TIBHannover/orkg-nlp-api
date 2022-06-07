@@ -1,15 +1,12 @@
 import datetime
 import uuid
 
-from orkgnlp.common.util.decorators import singleton
 from orkgnlp.annotation import CSNer
 
+from app.services import OrkgNlpService
 
-class CSNerService:
 
-    @singleton
-    def __new__(cls):
-        pass
+class CSNerService(OrkgNlpService):
 
     def __init__(self):
         self.annotator = CSNer()

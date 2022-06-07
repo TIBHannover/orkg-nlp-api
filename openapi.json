@@ -148,6 +148,47 @@
                     }
                 }
             }
+        },
+        "/pdf/table/extract": {
+            "post": {
+                "tags": [
+                    "pdf"
+                ],
+                "summary": "Extracts Table",
+                "operationId": "extracts_table_pdf_table_extract_post",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Body_extracts_table_pdf_table_extract_post"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExtractTableResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -221,6 +262,24 @@
                     }
                 }
             },
+            "Body_extracts_table_pdf_table_extract_post": {
+                "title": "Body_extracts_table_pdf_table_extract_post",
+                "required": [
+                    "file",
+                    "payload"
+                ],
+                "type": "object",
+                "properties": {
+                    "file": {
+                        "title": "File",
+                        "type": "string",
+                        "format": "binary"
+                    },
+                    "payload": {
+                        "$ref": "#/components/schemas/ExtractTableRequest"
+                    }
+                }
+            },
             "CSNerAnnotationResponse": {
                 "title": "CSNerAnnotationResponse",
                 "required": [
@@ -242,6 +301,65 @@
                     },
                     "annotations": {
                         "$ref": "#/components/schemas/PaperAnnotations"
+                    }
+                }
+            },
+            "ExtractTableRequest": {
+                "title": "ExtractTableRequest",
+                "required": [
+                    "page_number",
+                    "region"
+                ],
+                "type": "object",
+                "properties": {
+                    "page_number": {
+                        "title": "Page Number",
+                        "type": "integer"
+                    },
+                    "region": {
+                        "title": "Region",
+                        "maxItems": 4,
+                        "minItems": 4,
+                        "type": "array",
+                        "items": {
+                            "type": "number"
+                        }
+                    },
+                    "lattice": {
+                        "title": "Lattice",
+                        "type": "boolean",
+                        "default": false
+                    }
+                }
+            },
+            "ExtractTableResponse": {
+                "title": "ExtractTableResponse",
+                "required": [
+                    "timestamp",
+                    "uuid",
+                    "table"
+                ],
+                "type": "object",
+                "properties": {
+                    "timestamp": {
+                        "title": "Timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "uuid": {
+                        "title": "Uuid",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "table": {
+                        "title": "Table",
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
                     }
                 }
             },

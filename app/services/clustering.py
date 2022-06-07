@@ -2,14 +2,11 @@ import datetime
 import uuid
 
 from orkgnlp.clustering import PredicatesRecommender, BioassaysSemantifier
-from orkgnlp.common.util.decorators import singleton
+
+from app.services import OrkgNlpService
 
 
-class PredicatesService:
-
-    @singleton
-    def __new__(cls):
-        pass
+class PredicatesService(OrkgNlpService):
 
     def __init__(self):
         self.recommender = PredicatesRecommender()
@@ -24,11 +21,7 @@ class PredicatesService:
         }
 
 
-class BioassaysService:
-
-    @singleton
-    def __new__(cls):
-        pass
+class BioassaysService(OrkgNlpService):
 
     def __init__(self):
         self.semantifier = BioassaysSemantifier()
