@@ -3,7 +3,7 @@ import os
 from fastapi import FastAPI
 
 from app.common.util import io
-from app.routers import clustering, annotation
+from app.routers import clustering, annotation, pdf
 
 
 def create_app():
@@ -18,6 +18,7 @@ def create_app():
 def _configure_app(app):
     app.include_router(clustering.router)
     app.include_router(annotation.router)
+    app.include_router(pdf.router)
 
 
 def _save_openapi_specification(app):
