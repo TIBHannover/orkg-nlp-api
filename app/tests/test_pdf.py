@@ -19,7 +19,7 @@ def test_extract_table():
     }
 
     response = client.post(
-        '/pdf/table/extract',
+        '/tools/pdf/table/extract',
         files={'file': ('table.pdf', file)},
         data={
             'payload': json.dumps(payload)
@@ -41,7 +41,7 @@ def test_convert_pdf():
     file = open(os.path.join(current_dir, 'files', 'table.pdf'), 'rb')
 
     response = client.post(
-        '/pdf/convert',
+        '/tools/pdf/convert',
         files={'file': ('table.pdf', file)}
     )
 

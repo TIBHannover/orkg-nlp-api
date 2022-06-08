@@ -149,18 +149,18 @@
                 }
             }
         },
-        "/pdf/table/extract": {
+        "/tools/pdf/table/extract": {
             "post": {
                 "tags": [
                     "pdf"
                 ],
                 "summary": "Extracts Table",
-                "operationId": "extracts_table_pdf_table_extract_post",
+                "operationId": "extracts_table_tools_pdf_table_extract_post",
                 "requestBody": {
                     "content": {
                         "multipart/form-data": {
                             "schema": {
-                                "$ref": "#/components/schemas/Body_extracts_table_pdf_table_extract_post"
+                                "$ref": "#/components/schemas/Body_extracts_table_tools_pdf_table_extract_post"
                             }
                         }
                     },
@@ -190,18 +190,18 @@
                 }
             }
         },
-        "/pdf/convert": {
+        "/tools/pdf/convert": {
             "post": {
                 "tags": [
                     "pdf"
                 ],
                 "summary": "Converts Pdf",
-                "operationId": "converts_pdf_pdf_convert_post",
+                "operationId": "converts_pdf_tools_pdf_convert_post",
                 "requestBody": {
                     "content": {
                         "multipart/form-data": {
                             "schema": {
-                                "$ref": "#/components/schemas/Body_converts_pdf_pdf_convert_post"
+                                "$ref": "#/components/schemas/Body_converts_pdf_tools_pdf_convert_post"
                             }
                         }
                     },
@@ -214,6 +214,57 @@
                             "text/html": {
                                 "schema": {
                                     "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/tools/text/summarize": {
+            "get": {
+                "tags": [
+                    "text"
+                ],
+                "summary": "Summarizes Text",
+                "operationId": "summarizes_text_tools_text_summarize_get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Text",
+                            "type": "string"
+                        },
+                        "name": "text",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Ratio",
+                            "type": "number"
+                        },
+                        "name": "ratio",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SummarizeTextResponse"
                                 }
                             }
                         }
@@ -303,8 +354,8 @@
                     }
                 }
             },
-            "Body_converts_pdf_pdf_convert_post": {
-                "title": "Body_converts_pdf_pdf_convert_post",
+            "Body_converts_pdf_tools_pdf_convert_post": {
+                "title": "Body_converts_pdf_tools_pdf_convert_post",
                 "required": [
                     "file"
                 ],
@@ -317,8 +368,8 @@
                     }
                 }
             },
-            "Body_extracts_table_pdf_table_extract_post": {
-                "title": "Body_extracts_table_pdf_table_extract_post",
+            "Body_extracts_table_tools_pdf_table_extract_post": {
+                "title": "Body_extracts_table_tools_pdf_table_extract_post",
                 "required": [
                     "file",
                     "payload"
@@ -515,6 +566,31 @@
                     },
                     "label": {
                         "title": "Label",
+                        "type": "string"
+                    }
+                }
+            },
+            "SummarizeTextResponse": {
+                "title": "SummarizeTextResponse",
+                "required": [
+                    "timestamp",
+                    "uuid",
+                    "summary"
+                ],
+                "type": "object",
+                "properties": {
+                    "timestamp": {
+                        "title": "Timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "uuid": {
+                        "title": "Uuid",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "summary": {
+                        "title": "Summary",
                         "type": "string"
                     }
                 }

@@ -3,10 +3,10 @@ import uuid
 
 from orkgnlp.clustering import PredicatesRecommender, BioassaysSemantifier
 
-from app.services import OrkgNlpService
+from app.services import OrkgNlpApiService
 
 
-class PredicatesService(OrkgNlpService):
+class PredicatesService(OrkgNlpApiService):
 
     def __init__(self):
         self.recommender = PredicatesRecommender()
@@ -21,7 +21,7 @@ class PredicatesService(OrkgNlpService):
         }
 
 
-class BioassaysService(OrkgNlpService):
+class BioassaysService(OrkgNlpApiService):
 
     def __init__(self):
         self.semantifier = BioassaysSemantifier()
