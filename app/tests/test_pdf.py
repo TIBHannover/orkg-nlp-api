@@ -34,3 +34,18 @@ def test_extract_table():
 
     for key in response.json()['table']:
         assert isinstance(response.json()['table'][key], list)
+
+
+def test_convert_pdf():
+    current_dir = os.path.dirname(os.path.realpath(__file__))
+    file = open(os.path.join(current_dir, 'files', 'table.pdf'), 'rb')
+
+    response = client.post(
+        '/pdf/convert',
+        files={'file': ('table.pdf', file)}
+    )
+
+    file.close()
+
+    assert response.status_code == 200
+    assert '<!DOCTYPE html>' in response.text

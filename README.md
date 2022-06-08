@@ -2,11 +2,23 @@
 
 REST API for the ORKG-NLP python [package](https://orkg-nlp-pypi.readthedocs.io/en/latest/).
 
-## How to run
+This API provides an interface to the `orkgnlp`
+[services](https://orkg-nlp-pypi.readthedocs.io/en/latest/services/services.html)
+as well as for other services. For a full list please check our
+[OpenAPI](https://gitlab.com/TIBHannover/orkg/nlp/orkg-nlp-api/-/blob/1-migrate-nlp-services-convert-pdf/openapi.json) specification
+
+## Prerequisites
 
 We require a python version `3.7` or above.
 
-We also require `Java 8+` in case of using the table extraction service.
+Requirement by service:
+
+| Service              | Requirement(s)    |
+|----------------------|-------------------|
+| `/pdf/table/extract` | `Java 8` or above |
+| `/pdf/covert`        | [`pdf2htmlEX`](https://github.com/pdf2htmlEX/pdf2htmlEX) |
+
+## How to run
 
 ### With ``docker-compose``
 ```commandline

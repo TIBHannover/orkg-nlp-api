@@ -1,11 +1,16 @@
+import os
+import shutil
 import uuid
 import datetime
-from subprocess import CalledProcessError
-
+import tempfile
 import tabula
+
+from subprocess import CalledProcessError
 from fastapi import HTTPException
 from tabula.errors import JavaNotFoundError
 
+from app.common.services import runner
+from app.common.util import io
 from app.services import OrkgNlpService
 
 
@@ -13,6 +18,7 @@ class PdfService(OrkgNlpService):
 
     def __init__(self):
         self.encoding = 'utf-8'
+        self.DEFAULT_PDF_ZOOM = '1.33'
 
     def extract_table(self, file, page_number, region, lattice):
         table = {}
@@ -46,3 +52,33 @@ class PdfService(OrkgNlpService):
             'uuid': uuid.uuid4(),
             'table': table
         }
+
+    def convert_pdf(self, file):
+
+        # Temporarily save the file
+        temp_file = tempfile.NamedTemporaryFile()
+        temp_file.write(file.read())
+        temp_file.seek(0)
+
+        # Make a temp directory for saving the parsed pdf (so the html)
+        temp_dir = tempfile.mkdtemp()
+        output_file = 'output.html'
+
+        # Execute pdf2htmlEX and save the output in output_file
+        args = ['pdf2htmlEX',
+                '--dest-dir', temp_dir,
+                '--zoom', self.DEFAULT_PDF_ZOOM,
+                '--printing', '0',
+                '--embed-outline', '0',
+                temp_file.name,
+                output_file]
+
+        runner.run(args)
+
+        # Open the created html file and return output as response
+        html = io.read_file(os.path.join(temp_dir, output_file))
+
+        # Cleanup the temp dir
+        shutil.rmtree(temp_dir)
+
+        return html
