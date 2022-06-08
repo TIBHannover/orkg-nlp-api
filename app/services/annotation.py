@@ -3,10 +3,10 @@ import uuid
 
 from orkgnlp.annotation import CSNer
 
-from app.services import OrkgNlpService
+from app.services import OrkgNlpApiService
 
 
-class CSNerService(OrkgNlpService):
+class CSNerService(OrkgNlpApiService):
 
     def __init__(self):
         self.annotator = CSNer()

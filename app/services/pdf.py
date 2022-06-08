@@ -11,10 +11,10 @@ from tabula.errors import JavaNotFoundError
 
 from app.common.services import runner
 from app.common.util import io
-from app.services import OrkgNlpService
+from app.services import OrkgNlpApiService
 
 
-class PdfService(OrkgNlpService):
+class PdfService(OrkgNlpApiService):
 
     def __init__(self):
         self.encoding = 'utf-8'
