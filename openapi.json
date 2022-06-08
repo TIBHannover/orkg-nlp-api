@@ -189,6 +189,47 @@
                     }
                 }
             }
+        },
+        "/pdf/convert": {
+            "post": {
+                "tags": [
+                    "pdf"
+                ],
+                "summary": "Converts Pdf",
+                "operationId": "converts_pdf_pdf_convert_post",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Body_converts_pdf_pdf_convert_post"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -259,6 +300,20 @@
                         "items": {
                             "$ref": "#/components/schemas/BioAssayLabel"
                         }
+                    }
+                }
+            },
+            "Body_converts_pdf_pdf_convert_post": {
+                "title": "Body_converts_pdf_pdf_convert_post",
+                "required": [
+                    "file"
+                ],
+                "type": "object",
+                "properties": {
+                    "file": {
+                        "title": "File",
+                        "type": "string",
+                        "format": "binary"
                     }
                 }
             },
