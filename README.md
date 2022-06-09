@@ -13,10 +13,10 @@ We require a python version `3.7` or above.
 
 Requirement by service:
 
-| Service              | Requirement(s)    |
-|----------------------|-------------------|
-| `/pdf/table/extract` | `Java 8` or above |
-| `/pdf/covert`        | [`pdf2htmlEX`](https://github.com/pdf2htmlEX/pdf2htmlEX) |
+| Service                    | Requirement(s)    |
+|----------------------------|-------------------|
+| `/tools/pdf/table/extract` | `Java 8` or above |
+| `/tools/pdf/covert`        | [`pdf2htmlEX`](https://github.com/pdf2htmlEX/pdf2htmlEX) |
 
 ## How to run
 
