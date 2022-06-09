@@ -281,6 +281,47 @@
                     }
                 }
             }
+        },
+        "/tools/text/classify": {
+            "post": {
+                "tags": [
+                    "text"
+                ],
+                "summary": "Classifies Sentence",
+                "operationId": "classifies_sentence_tools_text_classify_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ClassifySentenceRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ClassifySentenceResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -407,6 +448,51 @@
                     },
                     "annotations": {
                         "$ref": "#/components/schemas/PaperAnnotations"
+                    }
+                }
+            },
+            "ClassifySentenceRequest": {
+                "title": "ClassifySentenceRequest",
+                "required": [
+                    "sentence",
+                    "labels"
+                ],
+                "type": "object",
+                "properties": {
+                    "sentence": {
+                        "title": "Sentence",
+                        "type": "string"
+                    },
+                    "labels": {
+                        "title": "Labels",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "ClassifySentenceResponse": {
+                "title": "ClassifySentenceResponse",
+                "required": [
+                    "timestamp",
+                    "uuid",
+                    "payload"
+                ],
+                "type": "object",
+                "properties": {
+                    "timestamp": {
+                        "title": "Timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "uuid": {
+                        "title": "Uuid",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "payload": {
+                        "$ref": "#/components/schemas/app__models__text__ClassifySentenceResponse__Payload"
                     }
                 }
             },
@@ -575,7 +661,7 @@
                 "required": [
                     "timestamp",
                     "uuid",
-                    "summary"
+                    "payload"
                 ],
                 "type": "object",
                 "properties": {
@@ -589,9 +675,8 @@
                         "type": "string",
                         "format": "uuid"
                     },
-                    "summary": {
-                        "title": "Summary",
-                        "type": "string"
+                    "payload": {
+                        "$ref": "#/components/schemas/app__models__text__SummarizeTextResponse__Payload"
                     }
                 }
             },
@@ -624,6 +709,48 @@
                     },
                     "type": {
                         "title": "Error Type",
+                        "type": "string"
+                    }
+                }
+            },
+            "app__models__text__ClassifySentenceResponse__Payload": {
+                "title": "Payload",
+                "required": [
+                    "labels",
+                    "scores",
+                    "sequence"
+                ],
+                "type": "object",
+                "properties": {
+                    "labels": {
+                        "title": "Labels",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "scores": {
+                        "title": "Scores",
+                        "type": "array",
+                        "items": {
+                            "type": "number"
+                        }
+                    },
+                    "sequence": {
+                        "title": "Sequence",
+                        "type": "string"
+                    }
+                }
+            },
+            "app__models__text__SummarizeTextResponse__Payload": {
+                "title": "Payload",
+                "required": [
+                    "summary"
+                ],
+                "type": "object",
+                "properties": {
+                    "summary": {
+                        "title": "Summary",
                         "type": "string"
                     }
                 }

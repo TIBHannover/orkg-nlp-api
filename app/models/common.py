@@ -10,6 +10,10 @@ class Response(BaseModel):
     uuid: UUID
 
 
+class Request(BaseModel):
+    pass
+
+
 class Predicate(BaseModel):
     id: str
     label: str
