@@ -9,39 +9,42 @@ abstract = 'Despite improved digital access to scholarly knowledge in recent dec
 
 
 def test_annotates_paper_full():
-    response = client.get('/annotation/csner', params={'title': title, 'abstract': abstract})
+    response = client.post('/annotation/csner', json={'title': title, 'abstract': abstract})
 
     assert response.status_code == 200
-    assert 'annotations' in response.json()
-    assert 'title' in response.json()['annotations']
-    assert 'abstract' in response.json()['annotations']
+    assert 'payload' in response.json()
+    assert 'annotations' in response.json()['payload']
+    assert 'title' in response.json()['payload']['annotations']
+    assert 'abstract' in response.json()['payload']['annotations']
 
-    for key in response.json()['annotations']:
-        assert_annotations_list(response.json()['annotations'][key])
+    for key in response.json()['payload']['annotations']:
+        assert_annotations_list(response.json()['payload']['annotations'][key])
 
 
 def test_annotates_paper_title():
-    response = client.get('/annotation/csner', params={'title': title})
+    response = client.post('/annotation/csner', json={'title': title})
 
     assert response.status_code == 200
-    assert 'annotations' in response.json()
-    assert 'title' in response.json()['annotations']
-    assert 'abstract' in response.json()['annotations']
+    assert 'payload' in response.json()
+    assert 'annotations' in response.json()['payload']
+    assert 'title' in response.json()['payload']['annotations']
+    assert 'abstract' in response.json()['payload']['annotations']
 
-    assert_annotations_list(response.json()['annotations']['title'])
-    assert len(response.json()['annotations']['abstract']) == 0
+    assert_annotations_list(response.json()['payload']['annotations']['title'])
+    assert len(response.json()['payload']['annotations']['abstract']) == 0
 
 
 def test_annotates_paper_abstract():
-    response = client.get('/annotation/csner', params={'abstract': abstract})
+    response = client.post('/annotation/csner', json={'abstract': abstract})
 
     assert response.status_code == 200
-    assert 'annotations' in response.json()
-    assert 'title' in response.json()['annotations']
-    assert 'abstract' in response.json()['annotations']
+    assert 'payload' in response.json()
+    assert 'annotations' in response.json()['payload']
+    assert 'title' in response.json()['payload']['annotations']
+    assert 'abstract' in response.json()['payload']['annotations']
 
-    assert len(response.json()['annotations']['title']) == 0
-    assert_annotations_list(response.json()['annotations']['abstract'])
+    assert len(response.json()['payload']['annotations']['title']) == 0
+    assert_annotations_list(response.json()['payload']['annotations']['abstract'])
 
 
 def assert_annotations_list(annotations):

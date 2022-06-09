@@ -1,9 +1,8 @@
-from typing import List
-
 from fastapi import APIRouter
 
-from app.models.text import SummarizeTextResponse, ClassifySentenceResponse, ClassifySentenceRequest
-from app.services.text import TextService
+from app.models.text import SummarizeTextResponse, ClassifySentenceResponse, ClassifySentenceRequest, \
+    SummarizeTextRequest
+from app.services.text import SummarizerService, ClassifierService
 
 router = APIRouter(
     prefix='/text',
@@ -11,13 +10,13 @@ router = APIRouter(
 )
 
 
-@router.get('/summarize', response_model=SummarizeTextResponse, status_code=200)
-def summarizes_text(text: str, ratio: float):
-    text_service = TextService()
-    return text_service.summarize(text, ratio)
+@router.post('/summarize', response_model=SummarizeTextResponse, status_code=200)
+def summarizes_text(request: SummarizeTextRequest):
+    text_service = SummarizerService()
+    return text_service.summarize(request.text, request.ratio)
 
 
 @router.post('/classify', response_model=ClassifySentenceResponse, status_code=200)
 def classifies_sentence(request: ClassifySentenceRequest):
-    text_service = TextService()
+    text_service = ClassifierService()
     return text_service.classify(request.sentence, request.labels)

@@ -29,11 +29,12 @@ def test_extract_table():
     file.close()
 
     assert response.status_code == 200
-    assert 'table' in response.json()
-    assert isinstance(response.json()['table'], dict)
+    assert 'payload' in response.json()
+    assert 'table' in response.json()['payload']
+    assert isinstance(response.json()['payload']['table'], dict)
 
-    for key in response.json()['table']:
-        assert isinstance(response.json()['table'][key], list)
+    for key in response.json()['payload']['table']:
+        assert isinstance(response.json()['payload']['table'][key], list)
 
 
 def test_convert_pdf():

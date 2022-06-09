@@ -5,12 +5,22 @@ from pydantic import BaseModel
 from app.models.common import Response, Request
 
 
+class SummarizeTextRequest(Request):
+    text: str
+    ratio: float
+
+
 class SummarizeTextResponse(Response):
 
     class Payload(BaseModel):
         summary: str
 
     payload: Payload
+
+
+class ClassifySentenceRequest(Request):
+    sentence: str
+    labels: List[str]
 
 
 class ClassifySentenceResponse(Response):
@@ -22,7 +32,3 @@ class ClassifySentenceResponse(Response):
 
     payload: Payload
 
-
-class ClassifySentenceRequest(Request):
-    sentence: str
-    labels: List[str]

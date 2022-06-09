@@ -6,32 +6,22 @@
     },
     "paths": {
         "/clustering/predicates": {
-            "get": {
+            "post": {
                 "tags": [
                     "clustering"
                 ],
                 "summary": "Recommends Predicates",
-                "operationId": "recommends_predicates_clustering_predicates_get",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Title",
-                            "type": "string"
-                        },
-                        "name": "title",
-                        "in": "query"
+                "operationId": "recommends_predicates_clustering_predicates_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PredicatesClusteringRequest"
+                            }
+                        }
                     },
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Abstract",
-                            "type": "string"
-                        },
-                        "name": "abstract",
-                        "in": "query"
-                    }
-                ],
+                    "required": true
+                },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
@@ -57,23 +47,22 @@
             }
         },
         "/clustering/bioassays": {
-            "get": {
+            "post": {
                 "tags": [
                     "clustering"
                 ],
                 "summary": "Semantifies Bioassays",
-                "operationId": "semantifies_bioassays_clustering_bioassays_get",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Text",
-                            "type": "string"
-                        },
-                        "name": "text",
-                        "in": "query"
-                    }
-                ],
+                "operationId": "semantifies_bioassays_clustering_bioassays_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BioAssaysClusteringRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
@@ -99,32 +88,22 @@
             }
         },
         "/annotation/csner": {
-            "get": {
+            "post": {
                 "tags": [
                     "annotation"
                 ],
                 "summary": "Annotates Paper",
-                "operationId": "annotates_paper_annotation_csner_get",
-                "parameters": [
-                    {
-                        "required": false,
-                        "schema": {
-                            "title": "Title",
-                            "type": "string"
-                        },
-                        "name": "title",
-                        "in": "query"
+                "operationId": "annotates_paper_annotation_csner_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CSNerAnnotationRequest"
+                            }
+                        }
                     },
-                    {
-                        "required": false,
-                        "schema": {
-                            "title": "Abstract",
-                            "type": "string"
-                        },
-                        "name": "abstract",
-                        "in": "query"
-                    }
-                ],
+                    "required": true
+                },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
@@ -232,32 +211,22 @@
             }
         },
         "/tools/text/summarize": {
-            "get": {
+            "post": {
                 "tags": [
                     "text"
                 ],
                 "summary": "Summarizes Text",
-                "operationId": "summarizes_text_tools_text_summarize_get",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Text",
-                            "type": "string"
-                        },
-                        "name": "text",
-                        "in": "query"
+                "operationId": "summarizes_text_tools_text_summarize_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SummarizeTextRequest"
+                            }
+                        }
                     },
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Ratio",
-                            "type": "number"
-                        },
-                        "name": "ratio",
-                        "in": "query"
-                    }
-                ],
+                    "required": true
+                },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
@@ -367,12 +336,25 @@
                     }
                 }
             },
+            "BioAssaysClusteringRequest": {
+                "title": "BioAssaysClusteringRequest",
+                "required": [
+                    "text"
+                ],
+                "type": "object",
+                "properties": {
+                    "text": {
+                        "title": "Text",
+                        "type": "string"
+                    }
+                }
+            },
             "BioAssaysClusteringResponse": {
                 "title": "BioAssaysClusteringResponse",
                 "required": [
                     "timestamp",
                     "uuid",
-                    "labels"
+                    "payload"
                 ],
                 "type": "object",
                 "properties": {
@@ -386,12 +368,8 @@
                         "type": "string",
                         "format": "uuid"
                     },
-                    "labels": {
-                        "title": "Labels",
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/BioAssayLabel"
-                        }
+                    "payload": {
+                        "$ref": "#/components/schemas/app__models__clustering__BioAssaysClusteringResponse__Payload"
                     }
                 }
             },
@@ -427,12 +405,26 @@
                     }
                 }
             },
+            "CSNerAnnotationRequest": {
+                "title": "CSNerAnnotationRequest",
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "title": "Title",
+                        "type": "string"
+                    },
+                    "abstract": {
+                        "title": "Abstract",
+                        "type": "string"
+                    }
+                }
+            },
             "CSNerAnnotationResponse": {
                 "title": "CSNerAnnotationResponse",
                 "required": [
                     "timestamp",
                     "uuid",
-                    "annotations"
+                    "payload"
                 ],
                 "type": "object",
                 "properties": {
@@ -446,8 +438,8 @@
                         "type": "string",
                         "format": "uuid"
                     },
-                    "annotations": {
-                        "$ref": "#/components/schemas/PaperAnnotations"
+                    "payload": {
+                        "$ref": "#/components/schemas/app__models__annotation__CSNerAnnotationResponse__Payload"
                     }
                 }
             },
@@ -529,7 +521,7 @@
                 "required": [
                     "timestamp",
                     "uuid",
-                    "table"
+                    "payload"
                 ],
                 "type": "object",
                 "properties": {
@@ -543,15 +535,8 @@
                         "type": "string",
                         "format": "uuid"
                     },
-                    "table": {
-                        "title": "Table",
-                        "type": "object",
-                        "additionalProperties": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
+                    "payload": {
+                        "$ref": "#/components/schemas/app__models__pdf__ExtractTableResponse__Payload"
                     }
                 }
             },
@@ -564,30 +549,6 @@
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/ValidationError"
-                        }
-                    }
-                }
-            },
-            "PaperAnnotations": {
-                "title": "PaperAnnotations",
-                "required": [
-                    "title",
-                    "abstract"
-                ],
-                "type": "object",
-                "properties": {
-                    "title": {
-                        "title": "Title",
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/Annotation"
-                        }
-                    },
-                    "abstract": {
-                        "title": "Abstract",
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/Annotation"
                         }
                     }
                 }
@@ -610,12 +571,30 @@
                     }
                 }
             },
+            "PredicatesClusteringRequest": {
+                "title": "PredicatesClusteringRequest",
+                "required": [
+                    "title",
+                    "abstract"
+                ],
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "title": "Title",
+                        "type": "string"
+                    },
+                    "abstract": {
+                        "title": "Abstract",
+                        "type": "string"
+                    }
+                }
+            },
             "PredicatesClusteringResponse": {
                 "title": "PredicatesClusteringResponse",
                 "required": [
                     "timestamp",
                     "uuid",
-                    "predicates"
+                    "payload"
                 ],
                 "type": "object",
                 "properties": {
@@ -629,12 +608,8 @@
                         "type": "string",
                         "format": "uuid"
                     },
-                    "predicates": {
-                        "title": "Predicates",
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/Predicate"
-                        }
+                    "payload": {
+                        "$ref": "#/components/schemas/app__models__clustering__PredicatesClusteringResponse__Payload"
                     }
                 }
             },
@@ -653,6 +628,24 @@
                     "label": {
                         "title": "Label",
                         "type": "string"
+                    }
+                }
+            },
+            "SummarizeTextRequest": {
+                "title": "SummarizeTextRequest",
+                "required": [
+                    "text",
+                    "ratio"
+                ],
+                "type": "object",
+                "properties": {
+                    "text": {
+                        "title": "Text",
+                        "type": "string"
+                    },
+                    "ratio": {
+                        "title": "Ratio",
+                        "type": "number"
                     }
                 }
             },
@@ -677,6 +670,30 @@
                     },
                     "payload": {
                         "$ref": "#/components/schemas/app__models__text__SummarizeTextResponse__Payload"
+                    }
+                }
+            },
+            "TitleAbstractAnnotations": {
+                "title": "TitleAbstractAnnotations",
+                "required": [
+                    "title",
+                    "abstract"
+                ],
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "title": "Title",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Annotation"
+                        }
+                    },
+                    "abstract": {
+                        "title": "Abstract",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Annotation"
+                        }
                     }
                 }
             },
@@ -710,6 +727,69 @@
                     "type": {
                         "title": "Error Type",
                         "type": "string"
+                    }
+                }
+            },
+            "app__models__annotation__CSNerAnnotationResponse__Payload": {
+                "title": "Payload",
+                "required": [
+                    "annotations"
+                ],
+                "type": "object",
+                "properties": {
+                    "annotations": {
+                        "$ref": "#/components/schemas/TitleAbstractAnnotations"
+                    }
+                }
+            },
+            "app__models__clustering__BioAssaysClusteringResponse__Payload": {
+                "title": "Payload",
+                "required": [
+                    "labels"
+                ],
+                "type": "object",
+                "properties": {
+                    "labels": {
+                        "title": "Labels",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/BioAssayLabel"
+                        }
+                    }
+                }
+            },
+            "app__models__clustering__PredicatesClusteringResponse__Payload": {
+                "title": "Payload",
+                "required": [
+                    "predicates"
+                ],
+                "type": "object",
+                "properties": {
+                    "predicates": {
+                        "title": "Predicates",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Predicate"
+                        }
+                    }
+                }
+            },
+            "app__models__pdf__ExtractTableResponse__Payload": {
+                "title": "Payload",
+                "required": [
+                    "table"
+                ],
+                "type": "object",
+                "properties": {
+                    "table": {
+                        "title": "Table",
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
                     }
                 }
             },

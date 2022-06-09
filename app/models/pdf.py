@@ -1,7 +1,7 @@
 import json
 from typing import Dict, List
 
-from pydantic import conlist
+from pydantic import conlist, BaseModel
 
 from app.models.common import Response, Request
 
@@ -23,4 +23,8 @@ class ExtractTableRequest(Request):
 
 
 class ExtractTableResponse(Response):
-    table: Dict[str, List[str]]
+
+    class Payload(BaseModel):
+        table: Dict[str, List[str]]
+
+    payload: Payload

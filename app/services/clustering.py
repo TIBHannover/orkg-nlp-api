@@ -3,6 +3,7 @@ import uuid
 
 from orkgnlp.clustering import PredicatesRecommender, BioassaysSemantifier
 
+from app.common.services.wrapper import ResponseWrapper
 from app.services import OrkgNlpApiService
 
 
@@ -14,11 +15,7 @@ class PredicatesService(OrkgNlpApiService):
     def recommend(self, title: str, abstract: str):
         predicates = self.recommender(title, abstract)
 
-        return {
-            'timestamp': datetime.datetime.now(),
-            'uuid': uuid.uuid4(),
-            'predicates': predicates
-        }
+        return ResponseWrapper.wrap_json({'predicates': predicates})
 
 
 class BioassaysService(OrkgNlpApiService):
@@ -29,8 +26,4 @@ class BioassaysService(OrkgNlpApiService):
     def semantify(self, text: str):
         labels = self.semantifier(text)
 
-        return {
-            'timestamp': datetime.datetime.now(),
-            'uuid': uuid.uuid4(),
-            'labels': labels
-        }
+        return ResponseWrapper.wrap_json({'labels': labels})
