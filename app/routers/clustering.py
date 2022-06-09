@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 
-from app.models.clustering import PredicatesClusteringResponse, BioAssaysClusteringResponse
+from app.models.clustering import PredicatesClusteringResponse, BioAssaysClusteringResponse, \
+    PredicatesClusteringRequest, BioAssaysClusteringRequest
 from app.services.clustering import PredicatesService, BioassaysService
 
 router = APIRouter(
@@ -9,13 +10,13 @@ router = APIRouter(
 )
 
 
-@router.get('/predicates', response_model=PredicatesClusteringResponse, status_code=200)
-def recommends_predicates(title: str, abstract: str):
+@router.post('/predicates', response_model=PredicatesClusteringResponse, status_code=200)
+def recommends_predicates(request: PredicatesClusteringRequest):
     predicates_service = PredicatesService()
-    return predicates_service.recommend(title, abstract)
+    return predicates_service.recommend(request.title, request.abstract)
 
 
-@router.get('/bioassays', response_model=BioAssaysClusteringResponse, status_code=200)
-def semantifies_bioassays(text: str):
+@router.post('/bioassays', response_model=BioAssaysClusteringResponse, status_code=200)
+def semantifies_bioassays(request: BioAssaysClusteringRequest):
     bioassays_service = BioassaysService()
-    return bioassays_service.semantify(text)
+    return bioassays_service.semantify(request.text)

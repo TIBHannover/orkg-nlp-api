@@ -1,12 +1,12 @@
 import json
 from typing import Dict, List
 
-from pydantic import BaseModel, conlist
+from pydantic import conlist, BaseModel
 
-from app.models.common import Response
+from app.models.common import Response, Request
 
 
-class ExtractTableRequest(BaseModel):
+class ExtractTableRequest(Request):
     page_number: int
     region: conlist(float, min_items=4, max_items=4)
     lattice: bool = False
@@ -23,4 +23,8 @@ class ExtractTableRequest(BaseModel):
 
 
 class ExtractTableResponse(Response):
-    table: Dict[str, List[str]]
+
+    class Payload(BaseModel):
+        table: Dict[str, List[str]]
+
+    payload: Payload

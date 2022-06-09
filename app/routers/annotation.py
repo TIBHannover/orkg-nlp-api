@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from app.models.annotation import CSNerAnnotationResponse
+from app.models.annotation import CSNerAnnotationResponse, CSNerAnnotationRequest
 from app.services.annotation import CSNerService
 
 router = APIRouter(
@@ -9,7 +9,7 @@ router = APIRouter(
 )
 
 
-@router.get('/csner', response_model=CSNerAnnotationResponse, status_code=200)
-def annotates_paper(title: str = None, abstract: str = None):
+@router.post('/csner', response_model=CSNerAnnotationResponse, status_code=200)
+def annotates_paper(request: CSNerAnnotationRequest):
     cs_ner_service = CSNerService()
-    return cs_ner_service.annotate(title, abstract)
+    return cs_ner_service.annotate(request.title, request.abstract)

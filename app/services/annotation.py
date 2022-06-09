@@ -1,8 +1,6 @@
-import datetime
-import uuid
-
 from orkgnlp.annotation import CSNer
 
+from app.common.services.wrapper import ResponseWrapper
 from app.services import OrkgNlpApiService
 
 
@@ -23,8 +21,4 @@ class CSNerService(OrkgNlpApiService):
         elif abstract:
             annotations['abstract'] = self.annotator(abstract=abstract)
 
-        return {
-            'timestamp': datetime.datetime.now(),
-            'uuid': uuid.uuid4(),
-            'annotations': annotations
-        }
+        return ResponseWrapper.wrap_json({'annotations': annotations})

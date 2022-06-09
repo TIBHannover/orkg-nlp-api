@@ -1,13 +1,24 @@
 from typing import List
+
 from pydantic import BaseModel
 
-from app.models.common import Response, Annotation
+from app.models.common import Response, Annotation, Request
 
 
-class PaperAnnotations(BaseModel):
-    title: List[Annotation]
-    abstract: List[Annotation]
+class CSNerAnnotationRequest(Request):
+    title: str = None
+    abstract: str = None
 
 
 class CSNerAnnotationResponse(Response):
-    annotations: PaperAnnotations
+
+    class Payload(BaseModel):
+
+        class TitleAbstractAnnotations(BaseModel):
+            title: List[Annotation]
+            abstract: List[Annotation]
+
+        annotations: TitleAbstractAnnotations
+
+    payload: Payload
+

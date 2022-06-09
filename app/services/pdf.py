@@ -1,15 +1,14 @@
 import os
 import shutil
-import uuid
-import datetime
 import tempfile
-import tabula
-
 from subprocess import CalledProcessError
+
+import tabula
 from fastapi import HTTPException
 from tabula.errors import JavaNotFoundError
 
 from app.common.services import runner
+from app.common.services.wrapper import ResponseWrapper
 from app.common.util import io
 from app.services import OrkgNlpApiService
 
@@ -47,11 +46,7 @@ class PdfService(OrkgNlpApiService):
         if len(dataframes) > 0:
             table = dataframes[0].to_dict(orient='list')
 
-        return {
-            'timestamp': datetime.datetime.now(),
-            'uuid': uuid.uuid4(),
-            'table': table
-        }
+        return ResponseWrapper.wrap_json({'table': table})
 
     def convert_pdf(self, file):
 

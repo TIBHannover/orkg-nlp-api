@@ -31,11 +31,38 @@ def test_summarize_text():
             Once the competitor could rise no higher, the spire of the Chrysler building was raised into view, giving it the title.
             """
 
-    response = client.get(
+    response = client.post(
         '/tools/text/summarize',
-        params={'text': text, 'ratio': 1}
+        json={'text': text, 'ratio': 1}
     )
 
     assert response.status_code == 200
-    assert 'summary' in response.json()
-    assert isinstance(response.json()['summary'], str)
+    assert 'payload' in response.json()
+    assert 'summary' in response.json()['payload']
+    assert isinstance(response.json()['payload']['summary'], str)
+
+
+def test_classify_sentence():
+    sentence = 'Going to the university everyday is hard. I decided to stop learning!'
+    labels = ['University', 'Working', 'Computer']
+
+    response = client.post(
+        '/tools/text/classify',
+        json={'sentence': sentence, 'labels': labels}
+    )
+
+    assert response.status_code == 200
+    assert 'payload' in response.json()
+    assert 'labels' in response.json()['payload']
+    assert 'scores' in response.json()['payload']
+    assert 'sequence' in response.json()['payload']
+
+    assert isinstance(response.json()['payload']['sequence'], str)
+    assert isinstance(response.json()['payload']['labels'], list)
+    assert isinstance(response.json()['payload']['scores'], list)
+
+    for label in response.json()['payload']['labels']:
+        assert isinstance(label, str)
+
+    for score in response.json()['payload']['scores']:
+        assert isinstance(score, float)
