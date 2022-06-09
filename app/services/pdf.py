@@ -1,11 +1,9 @@
 import os
 import shutil
-import uuid
-import datetime
 import tempfile
-import tabula
-
 from subprocess import CalledProcessError
+
+import tabula
 from fastapi import HTTPException
 from tabula.errors import JavaNotFoundError
 

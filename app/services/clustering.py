@@ -1,6 +1,3 @@
-import datetime
-import uuid
-
 from orkgnlp.clustering import PredicatesRecommender, BioassaysSemantifier
 
 from app.common.services.wrapper import ResponseWrapper
