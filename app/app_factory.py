@@ -7,7 +7,10 @@ from app.routers import clustering, annotation, pdf, text
 
 
 def create_app():
-    app = FastAPI(title='ORKG-NLP-API')
+    app = FastAPI(
+        title='ORKG-NLP-API',
+        root_path=os.getenv('ORKG_NLP_API_PREFIX', ''),
+    )
 
     _configure_app(app)
     _save_openapi_specification(app)
