@@ -4,5 +4,5 @@ from orkgnlp.common.util.decorators import singleton
 class OrkgNlpApiService:
 
     @singleton
-    def __new__(cls):
+    def __new__(cls, *args, **kwargs):
         pass

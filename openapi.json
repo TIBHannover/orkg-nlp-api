@@ -291,6 +291,98 @@
                     }
                 }
             }
+        },
+        "/feedback/": {
+            "get": {
+                "tags": [
+                    "feedback"
+                ],
+                "summary": "Reads All Feedbacks",
+                "operationId": "reads_all_feedbacks_feedback__get",
+                "parameters": [
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Skip",
+                            "type": "integer",
+                            "default": 0
+                        },
+                        "name": "skip",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Limit",
+                            "type": "integer",
+                            "default": 100
+                        },
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FeedbackReadAllResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "feedback"
+                ],
+                "summary": "Creates Feedback",
+                "operationId": "creates_feedback_feedback__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FeedbackCreateRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FeedbackCreateResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -540,6 +632,66 @@
                     }
                 }
             },
+            "FeedbackCreateRequest": {
+                "title": "FeedbackCreateRequest",
+                "required": [
+                    "feedback"
+                ],
+                "type": "object",
+                "properties": {
+                    "feedback": {
+                        "$ref": "#/components/schemas/app__models__feedback__FeedbackCreateRequest__Feedback"
+                    }
+                }
+            },
+            "FeedbackCreateResponse": {
+                "title": "FeedbackCreateResponse",
+                "required": [
+                    "timestamp",
+                    "uuid",
+                    "payload"
+                ],
+                "type": "object",
+                "properties": {
+                    "timestamp": {
+                        "title": "Timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "uuid": {
+                        "title": "Uuid",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "payload": {
+                        "$ref": "#/components/schemas/app__models__feedback__FeedbackCreateResponse__Payload"
+                    }
+                }
+            },
+            "FeedbackReadAllResponse": {
+                "title": "FeedbackReadAllResponse",
+                "required": [
+                    "timestamp",
+                    "uuid",
+                    "payload"
+                ],
+                "type": "object",
+                "properties": {
+                    "timestamp": {
+                        "title": "Timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "uuid": {
+                        "title": "Uuid",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "payload": {
+                        "$ref": "#/components/schemas/app__models__feedback__FeedbackReadAllResponse__Payload"
+                    }
+                }
+            },
             "HTTPValidationError": {
                 "title": "HTTPValidationError",
                 "type": "object",
@@ -630,6 +782,20 @@
                         "type": "string"
                     }
                 }
+            },
+            "ServiceName": {
+                "title": "ServiceName",
+                "enum": [
+                    "PREDICATES_CLUSTERING",
+                    "BIOASSAYS_SEMANTIFICATION",
+                    "CS_NER",
+                    "TABLE_EXTRACTION",
+                    "PDF_CONVERSION",
+                    "TEXT_SUMMARIZATION",
+                    "TEXT_CLASSIFICATION"
+                ],
+                "type": "string",
+                "description": "An enumeration."
             },
             "SummarizeTextRequest": {
                 "title": "SummarizeTextRequest",
@@ -771,6 +937,96 @@
                         "items": {
                             "$ref": "#/components/schemas/Predicate"
                         }
+                    }
+                }
+            },
+            "app__models__feedback__FeedbackCreateRequest__Feedback": {
+                "title": "Feedback",
+                "required": [
+                    "request",
+                    "response",
+                    "service_name"
+                ],
+                "type": "object",
+                "properties": {
+                    "request": {
+                        "title": "Request",
+                        "type": "object"
+                    },
+                    "response": {
+                        "title": "Response",
+                        "type": "object"
+                    },
+                    "service_name": {
+                        "$ref": "#/components/schemas/ServiceName"
+                    }
+                }
+            },
+            "app__models__feedback__FeedbackCreateResponse__Payload": {
+                "title": "Payload",
+                "required": [
+                    "id"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }
+            },
+            "app__models__feedback__FeedbackReadAllResponse__Payload": {
+                "title": "Payload",
+                "required": [
+                    "feedbacks"
+                ],
+                "type": "object",
+                "properties": {
+                    "feedbacks": {
+                        "title": "Feedbacks",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/app__models__feedback__FeedbackReadAllResponse__Payload__Feedback"
+                        }
+                    }
+                }
+            },
+            "app__models__feedback__FeedbackReadAllResponse__Payload__Feedback": {
+                "title": "Feedback",
+                "required": [
+                    "request",
+                    "response",
+                    "service_name"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "created_at": {
+                        "title": "Created At",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "title": "Updated At",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "request": {
+                        "title": "Request",
+                        "type": "object"
+                    },
+                    "response": {
+                        "title": "Response",
+                        "type": "object"
+                    },
+                    "service_name": {
+                        "title": "Service Name",
+                        "type": "string"
                     }
                 }
             },

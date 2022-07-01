@@ -10,6 +10,7 @@ as well as for other services. For a full list please check our
 ## Prerequisites
 
 We require a python version `3.7` or above.
+We also require a database connection, whose URI can be specified in the ``.env`` file. 
 
 Requirement by service:
 
@@ -56,6 +57,12 @@ or `localhost:4321/redoc` (please adapt your `host:port` in case you configured 
 The following environment variables can be used inside the docker container
 and are defined in the `.env` file.
 
-| Variable             | Description                                                         |
-|----------------------|---------------------------------------------------------------------|
-| ORKG_NLP_API_PREFIX  | Prefix of the app routes. Not preferable in development environment |
+| Variable                | Description                                                                         |
+|-------------------------|-------------------------------------------------------------------------------------|
+| ORKG_NLP_API_PREFIX     | Prefix of the app routes. Not preferable in development environment                 |
+| SQLALCHEMY_DATABASE_URI | Used to connect to the database (currently we use PostgreSQL).                      |
+| ENV                     | Deployment environment. Possible values: [dev, test, prod]                          |
+| POSTGRES_USER           | Used by docker-compose to set the user of PostgreSQL image                          |                                                                     |
+| POSTGRES_PASSWORD       | Used by docker-compose to set the password of PostgreSQL image                      |                                                                    |
+| POSTGRES_DB             | Used by docker-compose to set the database name of PostgreSQL image                 |
+| LOG_LEVEL               | Used for the Logger. Possible values: [INFO, WARN, DEBUG, ERROR]. Defaults to DEBUG |
