@@ -4,9 +4,9 @@ import tempfile
 from subprocess import CalledProcessError
 
 import tabula
-from fastapi import HTTPException
 from tabula.errors import JavaNotFoundError
 
+from app.common.errors import OrkgNlpApiError
 from app.common.services import runner
 from app.common.services.wrapper import ResponseWrapper
 from app.common.util import io
@@ -33,14 +33,14 @@ class PdfService(OrkgNlpApiService):
                 pandas_options={'header': None}
             )
         except JavaNotFoundError:
-            raise HTTPException(
-                status_code=500,
-                detail='In order to use the table extraction service you need to install Java on your machine.'
+            raise OrkgNlpApiError(
+                'In order to use the table extraction service you need to install Java on your machine.',
+                self.__class__
             )
         except CalledProcessError:
-            raise HTTPException(
-                status_code=500,
-                detail='Something went wrong when calling tabula JAR file. Please check your input and try again.'
+            raise OrkgNlpApiError(
+                'Something went wrong when calling tabula JAR file. Please check your input and try again.',
+                self.__class__
             )
 
         if len(dataframes) > 0:
