@@ -6,7 +6,7 @@ from sqlalchemy.orm import sessionmaker
 
 SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
 
-if not SQLALCHEMY_DATABASE_URI:
+if os.environ.get('ENV') != 'test' and not SQLALCHEMY_DATABASE_URI:
     raise ValueError('Please consider setting "SQLALCHEMY_DATABASE_URI" in the .env file.')
 
 engine = create_engine(SQLALCHEMY_DATABASE_URI)
