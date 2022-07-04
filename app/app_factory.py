@@ -4,6 +4,7 @@ from fastapi import FastAPI, Request, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.common.errors import OrkgNlpApiError
 from app.common.util import io
@@ -21,6 +22,7 @@ def create_app():
 
     _configure_app_routes(app)
     _configure_exception_handlers(app)
+    _configure_cors_policy(app)
     _create_database_tables()
     _save_openapi_specification(app)
 
@@ -54,6 +56,16 @@ def _configure_exception_handlers(app):
 
     app.add_exception_handler(RequestValidationError, validation_exception_handler)
     app.add_exception_handler(OrkgNlpApiError, orkg_nlp_api_exception_handler)
+
+
+def _configure_cors_policy(app):
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins='*',
+        allow_methods=["*"],
+        allow_headers=["*"],
+        allow_credentials=False
+    )
 
 
 def _create_database_tables():
