@@ -5,9 +5,10 @@ from app.services import OrkgNlpApiService
 
 
 class CSNerService(OrkgNlpApiService):
+    _annotator: CSNer = None
 
-    def __init__(self):
-        self.annotator = CSNer()
+    def __init__(self, annotator: CSNer):
+        self.annotator = annotator
 
     def annotate(self, title=None, abstract=None):
         annotations = {'title': [], 'abstract': []}
@@ -22,3 +23,10 @@ class CSNerService(OrkgNlpApiService):
             annotations['abstract'] = self.annotator(abstract=abstract)
 
         return ResponseWrapper.wrap_json({'annotations': annotations})
+
+    @classmethod
+    def get_annotator(cls):
+        if not cls._annotator:
+            cls._summarizer = CSNer()
+
+        return cls._annotator

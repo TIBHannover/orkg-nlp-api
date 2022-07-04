@@ -1,7 +1,10 @@
 from fastapi.testclient import TestClient
 
 from app.main import app
+from app.services.annotation import CSNerService
+from app.tests.mock.mock_annotation import CSNerMock
 
+app.dependency_overrides[CSNerService.get_annotator] = CSNerMock.get_annotator
 client = TestClient(app)
 
 title = 'Open Research Knowledge Graph: Next Generation Infrastructure for Semantic Scholarly Knowledge'

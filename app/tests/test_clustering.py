@@ -1,7 +1,11 @@
 from fastapi.testclient import TestClient
 
 from app.main import app
+from app.services.clustering import BioassaysService, PredicatesService
+from app.tests.mock.mock_clustering import BioAssaysSemantifierMock, PredicatesRecommenderMock
 
+app.dependency_overrides[BioassaysService.get_semantifier] = BioAssaysSemantifierMock.get_semantifier
+app.dependency_overrides[PredicatesService.get_recommender] = PredicatesRecommenderMock.get_recommender
 client = TestClient(app)
 
 
