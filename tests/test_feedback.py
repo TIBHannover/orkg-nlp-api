@@ -2,7 +2,7 @@ from fastapi.testclient import TestClient
 
 from app.db.connection import get_db
 from app.main import app
-from app.tests.db.connection import override_get_db
+from tests.db.connection import override_get_db
 
 
 app.dependency_overrides[get_db] = override_get_db

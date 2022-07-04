@@ -2,7 +2,7 @@ from fastapi.testclient import TestClient
 
 from app.main import app
 from app.services.text import SummarizerService, ClassifierService
-from app.tests.mock.mock_text import SummarizerMock, ClassifierMock
+from tests.mock.mock_text import SummarizerMock, ClassifierMock
 
 app.dependency_overrides[SummarizerService.get_summarizer] = SummarizerMock.get_summarizer
 app.dependency_overrides[ClassifierService.get_classifier] = ClassifierMock.get_classifier
