@@ -1,5 +1,7 @@
 # ORKG NLP API
 
+[![pipeline status](https://gitlab.com/TIBHannover/orkg/nlp/orkg-nlp-api/badges/main/pipeline.svg)](https://gitlab.com/TIBHannover/orkg/nlp/orkg-nlp-api/-/commits/main)
+
 REST API for the ORKG-NLP python [package](https://orkg-nlp-pypi.readthedocs.io/en/latest/).
 
 This API provides an interface to the `orkgnlp`
