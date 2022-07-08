@@ -27,6 +27,6 @@ class CSNerService(OrkgNlpApiService):
     @classmethod
     def get_annotator(cls):
         if not cls._annotator:
-            cls._summarizer = CSNer()
+            cls._annotator = CSNer()
 
         return cls._annotator

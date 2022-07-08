@@ -37,6 +37,6 @@ class BioassaysService(OrkgNlpApiService):
     @classmethod
     def get_semantifier(cls):
         if not cls._semantifier:
-            cls.semantifier = BioassaysSemantifier()
+            cls._semantifier = BioassaysSemantifier()
 
         return cls._semantifier
