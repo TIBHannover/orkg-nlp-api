@@ -11,18 +11,18 @@ def log(logger_name: str):
 
         @wraps(route)
         def wrapper(*args, **kwargs):
-            logger.info('>>>> Entering route with following arguments:')
+            logger.debug('>>>> Entering route with following arguments:')
 
             for arg in args:
-                logger.info(arg)
+                logger.debug(arg)
 
             for k, w in kwargs.items():
-                logger.info('{}: {}'.format(k, w))
+                logger.debug('{}: {}'.format(k, w))
 
             response = route(*args, **kwargs)
 
-            logger.info('<<<< Exiting route with following response:')
-            logger.info('{}'.format(response))
+            logger.debug('<<<< Exiting route with following response:')
+            logger.debug('{}'.format(response))
 
             return response
 
