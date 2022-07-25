@@ -47,4 +47,5 @@ RUN pip install --no-cache-dir --upgrade -r /orkg-nlp-api/requirements.txt
 COPY ./app /orkg-nlp-api/app
 
 # TODO: how many workers can we offer ?
-CMD ["gunicorn", "app.main:app", "--workers", "4",  "--timeout", "0", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:4321"]
+CMD ["gunicorn", "app.main:app", "--workers", "4",  "--timeout", "0", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:4321", "--access-logfile=-", "--error-logfile=-"]
+
