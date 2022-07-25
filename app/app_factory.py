@@ -18,6 +18,9 @@ def create_app():
     app = FastAPI(
         title='ORKG-NLP-API',
         root_path=os.getenv('ORKG_NLP_API_PREFIX', ''),
+        servers=[
+            {'url': os.getenv('ORKG_NLP_API_PREFIX', ''), 'description': ''}
+        ],
     )
 
     _configure_app_routes(app)

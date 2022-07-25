@@ -4,6 +4,12 @@
         "title": "ORKG-NLP-API",
         "version": "0.1.0"
     },
+    "servers": [
+        {
+            "url": "",
+            "description": ""
+        }
+    ],
     "paths": {
         "/clustering/predicates": {
             "post": {
