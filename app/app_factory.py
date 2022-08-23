@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.common.errors import OrkgNlpApiError
 from app.common.util import io
 from app.db.connection import Base, engine
-from app.routers import clustering, annotation, pdf, text, feedback
+from app.routers import clustering, annotation, pdf, text, feedback, nli
 
 _registered_services = []
 
@@ -38,6 +38,7 @@ def _configure_app_routes(app):
     app.include_router(pdf.router, prefix='/tools')
     app.include_router(text.router, prefix='/tools')
     app.include_router(feedback.router)
+    app.include_router(nli.router)
 
 
 def _configure_exception_handlers(app):
