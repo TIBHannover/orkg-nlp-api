@@ -19,6 +19,11 @@ class Predicate(BaseModel):
     label: str
 
 
+class Template(BaseModel):
+    id: str
+    label: str
+
+
 class Resource(BaseModel):
     id: str
     label: str

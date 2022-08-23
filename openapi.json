@@ -389,6 +389,47 @@
                     }
                 }
             }
+        },
+        "/nli/templates": {
+            "post": {
+                "tags": [
+                    "nli"
+                ],
+                "summary": "Recommends Templates",
+                "operationId": "recommends_templates_nli_templates_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TemplatesRecommendationRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TemplatesRecommendationResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -845,6 +886,71 @@
                     }
                 }
             },
+            "Template": {
+                "title": "Template",
+                "required": [
+                    "id",
+                    "label"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "string"
+                    },
+                    "label": {
+                        "title": "Label",
+                        "type": "string"
+                    }
+                }
+            },
+            "TemplatesRecommendationRequest": {
+                "title": "TemplatesRecommendationRequest",
+                "required": [
+                    "title",
+                    "abstract"
+                ],
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "title": "Title",
+                        "type": "string"
+                    },
+                    "abstract": {
+                        "title": "Abstract",
+                        "type": "string"
+                    },
+                    "top_n": {
+                        "title": "Top N",
+                        "type": "integer",
+                        "default": 5
+                    }
+                }
+            },
+            "TemplatesRecommendationResponse": {
+                "title": "TemplatesRecommendationResponse",
+                "required": [
+                    "timestamp",
+                    "uuid",
+                    "payload"
+                ],
+                "type": "object",
+                "properties": {
+                    "timestamp": {
+                        "title": "Timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "uuid": {
+                        "title": "Uuid",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "payload": {
+                        "$ref": "#/components/schemas/app__models__nli__TemplatesRecommendationResponse__Payload"
+                    }
+                }
+            },
             "TitleAbstractAnnotations": {
                 "title": "TitleAbstractAnnotations",
                 "required": [
@@ -1033,6 +1139,22 @@
                     "service_name": {
                         "title": "Service Name",
                         "type": "string"
+                    }
+                }
+            },
+            "app__models__nli__TemplatesRecommendationResponse__Payload": {
+                "title": "Payload",
+                "required": [
+                    "templates"
+                ],
+                "type": "object",
+                "properties": {
+                    "templates": {
+                        "title": "Templates",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Template"
+                        }
                     }
                 }
             },
