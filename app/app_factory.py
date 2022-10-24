@@ -1,10 +1,12 @@
 import os
+import orkgnlp
 
 from fastapi import FastAPI, Request, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from orkgnlp.common.config import orkgnlp_context
 
 from app.common.errors import OrkgNlpApiError
 from app.common.util import io
@@ -28,6 +30,7 @@ def create_app():
     _configure_cors_policy(app)
     _create_database_tables()
     _save_openapi_specification(app)
+    _force_download_orkgnlp_dependencies()
 
     return app
 
@@ -80,3 +83,8 @@ def _create_database_tables():
 def _save_openapi_specification(app):
     app_dir = os.path.dirname(os.path.realpath(__file__))
     io.write_json(app.openapi(), os.path.join(app_dir, '..', 'openapi.json'))
+
+
+def _force_download_orkgnlp_dependencies():
+    for service in orkgnlp_context.get('HUGGINGFACE_REPOS').keys():
+        orkgnlp.download(service)
