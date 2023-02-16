@@ -86,5 +86,6 @@ def _save_openapi_specification(app):
 
 
 def _force_download_orkgnlp_dependencies():
+    deactivate_force_download = os.environ.get('ORKG_NLP_API_DEACTIVATE_FORCE_DOWNLOAD_MODELS')
     for service in orkgnlp_context.get('HUGGINGFACE_REPOS').keys():
-        orkgnlp.download(service)
+        orkgnlp.download(service, force_download=not bool(deactivate_force_download))
