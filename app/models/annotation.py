@@ -22,3 +22,14 @@ class CSNerAnnotationResponse(Response):
 
     payload: Payload
 
+
+class AgriNerAnnotationRequest(Request):
+    title: str
+
+
+class AgriNerAnnotationResponse(Response):
+
+    class Payload(BaseModel):
+        annotations: List[Annotation]
+
+    payload: Payload
