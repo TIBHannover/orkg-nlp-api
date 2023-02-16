@@ -98,8 +98,8 @@
                 "tags": [
                     "annotation"
                 ],
-                "summary": "Annotates Paper",
-                "operationId": "annotates_paper_annotation_csner_post",
+                "summary": "Annotates Cs Paper",
+                "operationId": "annotates_cs_paper_annotation_csner_post",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -117,6 +117,47 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/CSNerAnnotationResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/annotation/agriner": {
+            "post": {
+                "tags": [
+                    "annotation"
+                ],
+                "summary": "Annotates Agri Paper",
+                "operationId": "annotates_agri_paper_annotation_agriner_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AgriNerAnnotationRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AgriNerAnnotationResponse"
                                 }
                             }
                         }
@@ -434,6 +475,43 @@
     },
     "components": {
         "schemas": {
+            "AgriNerAnnotationRequest": {
+                "title": "AgriNerAnnotationRequest",
+                "required": [
+                    "title"
+                ],
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "title": "Title",
+                        "type": "string"
+                    }
+                }
+            },
+            "AgriNerAnnotationResponse": {
+                "title": "AgriNerAnnotationResponse",
+                "required": [
+                    "timestamp",
+                    "uuid",
+                    "payload"
+                ],
+                "type": "object",
+                "properties": {
+                    "timestamp": {
+                        "title": "Timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "uuid": {
+                        "title": "Uuid",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "payload": {
+                        "$ref": "#/components/schemas/app__models__annotation__AgriNerAnnotationResponse__Payload"
+                    }
+                }
+            },
             "Annotation": {
                 "title": "Annotation",
                 "required": [
@@ -1005,6 +1083,22 @@
                     "type": {
                         "title": "Error Type",
                         "type": "string"
+                    }
+                }
+            },
+            "app__models__annotation__AgriNerAnnotationResponse__Payload": {
+                "title": "Payload",
+                "required": [
+                    "annotations"
+                ],
+                "type": "object",
+                "properties": {
+                    "annotations": {
+                        "title": "Annotations",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Annotation"
+                        }
                     }
                 }
             },
