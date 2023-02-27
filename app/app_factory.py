@@ -8,6 +8,7 @@ from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from orkgnlp.common.config import orkgnlp_context
 
+from . import __version__
 from app.common.errors import OrkgNlpApiError
 from app.common.util import io
 from app.db.connection import Base, engine
@@ -23,6 +24,7 @@ def create_app():
         servers=[
             {'url': os.getenv('ORKG_NLP_API_PREFIX', ''), 'description': ''}
         ],
+        version=__version__
     )
 
     _configure_app_routes(app)

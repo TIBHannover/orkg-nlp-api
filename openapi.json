@@ -2,7 +2,7 @@
     "openapi": "3.0.2",
     "info": {
         "title": "ORKG-NLP-API",
-        "version": "0.1.0"
+        "version": "0.3.1"
     },
     "servers": [
         {
@@ -914,6 +914,8 @@
                     "PREDICATES_CLUSTERING",
                     "BIOASSAYS_SEMANTIFICATION",
                     "CS_NER",
+                    "AGRI_NER",
+                    "TEMPLATES_RECOMMENDATION",
                     "TABLE_EXTRACTION",
                     "PDF_CONVERSION",
                     "TEXT_SUMMARIZATION",
