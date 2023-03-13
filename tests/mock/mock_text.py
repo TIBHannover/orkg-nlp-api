@@ -1,7 +1,7 @@
+# -*- coding: utf-8 -*-
 class SummarizerMock:
-
     def __call__(self, body, ratio=None):
-        return 'summarized body'
+        return "summarized body"
 
     @staticmethod
     def get_summarizer():
@@ -9,13 +9,8 @@ class SummarizerMock:
 
 
 class ClassifierMock:
-
     def __call__(self, *args, **kwargs):
-        return {
-            'labels': ['some_label'] * 10,
-            'scores': [0.123] * 10,
-            'sequence': 'same_input'
-        }
+        return {"labels": ["some_label"] * 10, "scores": [0.123] * 10, "sequence": "same_input"}
 
     @staticmethod
     def get_classifier():

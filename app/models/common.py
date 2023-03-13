@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from datetime import datetime
 from typing import List, Optional
 from uuid import UUID
@@ -35,7 +36,6 @@ class Annotation(BaseModel):
 
 
 class BaseORMObject(BaseModel):
-
     id: Optional[UUID]
     created_at: Optional[datetime]
     updated_at: Optional[datetime]

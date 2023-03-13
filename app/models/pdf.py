@@ -1,9 +1,10 @@
+# -*- coding: utf-8 -*-
 import json
 from typing import Dict, List
 
-from pydantic import conlist, BaseModel
+from pydantic import BaseModel, conlist
 
-from app.models.common import Response, Request
+from app.models.common import Request, Response
 
 
 class ExtractTableRequest(Request):
@@ -23,7 +24,6 @@ class ExtractTableRequest(Request):
 
 
 class ExtractTableResponse(Response):
-
     class Payload(BaseModel):
         table: Dict[str, List[str]]
 

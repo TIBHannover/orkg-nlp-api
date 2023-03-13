@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 import shutil
 import tempfile
@@ -14,10 +15,9 @@ from app.services import OrkgNlpApiService
 
 
 class PdfService(OrkgNlpApiService):
-
     def __init__(self):
-        self.encoding = 'utf-8'
-        self.DEFAULT_PDF_ZOOM = '1.33'
+        self.encoding = "utf-8"
+        self.DEFAULT_PDF_ZOOM = "1.33"
 
     def extract_table(self, file, page_number, region, lattice):
         table = {}
@@ -30,26 +30,25 @@ class PdfService(OrkgNlpApiService):
                 lattice=lattice,
                 multiple_tables=False,
                 encoding=self.encoding,
-                pandas_options={'header': None}
+                pandas_options={"header": None},
             )
         except JavaNotFoundError:
             raise OrkgNlpApiError(
-                'In order to use the table extraction service you need to install Java on your machine.',
-                self.__class__
+                "In order to use the table extraction service you need to install Java on your machine.",
+                self.__class__,
             )
         except CalledProcessError:
             raise OrkgNlpApiError(
-                'Something went wrong when calling tabula JAR file. Please check your input and try again.',
-                self.__class__
+                "Something went wrong when calling tabula JAR file. Please check your input and try again.",
+                self.__class__,
             )
 
         if len(dataframes) > 0:
-            table = dataframes[0].to_dict(orient='list')
+            table = dataframes[0].to_dict(orient="list")
 
-        return ResponseWrapper.wrap_json({'table': table})
+        return ResponseWrapper.wrap_json({"table": table})
 
     def convert_pdf(self, file):
-
         # Temporarily save the file
         temp_file = tempfile.NamedTemporaryFile()
         temp_file.write(file.read())
@@ -57,16 +56,22 @@ class PdfService(OrkgNlpApiService):
 
         # Make a temp directory for saving the parsed pdf (so the html)
         temp_dir = tempfile.mkdtemp()
-        output_file = 'output.html'
+        output_file = "output.html"
 
         # Execute pdf2htmlEX and save the output in output_file
-        args = ['pdf2htmlEX',
-                '--dest-dir', temp_dir,
-                '--zoom', self.DEFAULT_PDF_ZOOM,
-                '--printing', '0',
-                '--embed-outline', '0',
-                temp_file.name,
-                output_file]
+        args = [
+            "pdf2htmlEX",
+            "--dest-dir",
+            temp_dir,
+            "--zoom",
+            self.DEFAULT_PDF_ZOOM,
+            "--printing",
+            "0",
+            "--embed-outline",
+            "0",
+            temp_file.name,
+            output_file,
+        ]
 
         runner.run(args)
 

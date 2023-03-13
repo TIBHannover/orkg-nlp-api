@@ -1,8 +1,9 @@
+# -*- coding: utf-8 -*-
 from typing import List
 
 from pydantic import BaseModel
 
-from app.models.common import Response, Request
+from app.models.common import Request, Response
 
 
 class SummarizeTextRequest(Request):
@@ -11,7 +12,6 @@ class SummarizeTextRequest(Request):
 
 
 class SummarizeTextResponse(Response):
-
     class Payload(BaseModel):
         summary: str
 
@@ -24,11 +24,9 @@ class ClassifySentenceRequest(Request):
 
 
 class ClassifySentenceResponse(Response):
-
     class Payload(BaseModel):
         labels: List[str]
         scores: List[float]
         sequence: str
 
     payload: Payload
-

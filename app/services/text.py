@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
 from summarizer import Summarizer
-from transformers import pipeline, Pipeline
+from transformers import Pipeline, pipeline
 
 from app.common.services.wrapper import ResponseWrapper
 from app.services import OrkgNlpApiService
@@ -14,7 +15,7 @@ class SummarizerService(OrkgNlpApiService):
     def summarize(self, text, ratio):
         summary = self.summarizer(text, ratio=ratio)
 
-        return ResponseWrapper.wrap_json({'summary': summary})
+        return ResponseWrapper.wrap_json({"summary": summary})
 
     @classmethod
     def get_summarizer(cls):
@@ -38,6 +39,6 @@ class ClassifierService(OrkgNlpApiService):
     @classmethod
     def get_classifier(cls):
         if not cls._classifier:
-            cls._classifier = pipeline('zero-shot-classification')
+            cls._classifier = pipeline("zero-shot-classification")
 
         return cls._classifier

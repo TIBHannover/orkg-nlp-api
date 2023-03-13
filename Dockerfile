@@ -1,4 +1,4 @@
-FROM python:3.7 as requirements-stage
+FROM python:3.8 as requirements-stage
 LABEL maintainer="Omar Arab Oghli <Omar.ArabOghli@tib.eu>"
 
 WORKDIR /tmp
@@ -14,14 +14,14 @@ FROM ubuntu:bionic
 LABEL maintainer="Omar Arab Oghli <Omar.ArabOghli@tib.eu>"
 
 # Install java for ExtractTable
-# Install python 3.7
+# Install python 3.8
 # Register the python version in alternatives
-# Set python 3.7 as the default python
+# Set python 3.8 as the default python
 # Upgrade pip to latest version
 RUN apt-get clean && apt-get update && \
-    apt-get -qqy install locales curl python3.7 python3.7-dev python3.7-distutils wget default-jre && \
-    update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1 && \
-    update-alternatives --set python /usr/bin/python3.7 && \
+    apt-get -qqy install locales curl python3.8 python3.8-dev python3.8-distutils wget default-jre && \
+    update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1 && \
+    update-alternatives --set python /usr/bin/python3.8 && \
     curl -s https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
     python get-pip.py --force-reinstall && \
     rm get-pip.py
@@ -47,4 +47,3 @@ RUN pip install --no-cache-dir --upgrade -r /orkg-nlp-api/requirements.txt
 COPY ./app /orkg-nlp-api/app
 
 CMD ["gunicorn", "app.main:app", "--workers", "1",  "--timeout", "0", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:4321", "--access-logfile=-", "--error-logfile=-"]
-
