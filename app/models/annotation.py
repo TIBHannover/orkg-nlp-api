@@ -1,8 +1,9 @@
+# -*- coding: utf-8 -*-
 from typing import List
 
 from pydantic import BaseModel
 
-from app.models.common import Response, Annotation, Request
+from app.models.common import Annotation, Request, Response
 
 
 class CSNerAnnotationRequest(Request):
@@ -11,9 +12,7 @@ class CSNerAnnotationRequest(Request):
 
 
 class CSNerAnnotationResponse(Response):
-
     class Payload(BaseModel):
-
         class TitleAbstractAnnotations(BaseModel):
             title: List[Annotation]
             abstract: List[Annotation]
@@ -28,7 +27,6 @@ class AgriNerAnnotationRequest(Request):
 
 
 class AgriNerAnnotationResponse(Response):
-
     class Payload(BaseModel):
         annotations: List[Annotation]
 

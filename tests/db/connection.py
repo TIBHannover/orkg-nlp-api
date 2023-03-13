@@ -1,10 +1,10 @@
+# -*- coding: utf-8 -*-
 """ Dummy classes and functions for test mocking """
 import datetime
 import uuid
 
 
 class Session:
-
     def add(self, instance):
         pass
 
@@ -25,7 +25,6 @@ class Session:
 
 
 class Query:
-
     def __init__(self, instances):
         self.instances = instances
 
@@ -47,7 +46,6 @@ class Query:
 
     @staticmethod
     def instantiate_value(cls):
-
         if cls is uuid.UUID:
             return uuid.uuid4()
 

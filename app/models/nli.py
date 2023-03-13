@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from typing import List
 
 from pydantic import BaseModel
@@ -12,7 +13,6 @@ class TemplatesRecommendationRequest(Request):
 
 
 class TemplatesRecommendationResponse(Response):
-
     class Payload(BaseModel):
         templates: List[Template]
 

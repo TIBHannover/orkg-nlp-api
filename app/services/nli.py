@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from orkgnlp.nli import TemplatesRecommender
 
 from app.common.services.wrapper import ResponseWrapper
@@ -13,7 +14,7 @@ class TemplatesService(OrkgNlpApiService):
     def recommend(self, title: str, abstract: str, top_n: int):
         templates = self.recommender(title, abstract, top_n)
 
-        return ResponseWrapper.wrap_json({'templates': templates})
+        return ResponseWrapper.wrap_json({"templates": templates})
 
     @classmethod
     def get_recommender(cls):

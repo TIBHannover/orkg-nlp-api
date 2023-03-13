@@ -1,10 +1,11 @@
+# -*- coding: utf-8 -*-
 from typing import Any, Dict, List
 from uuid import UUID
 
 from pydantic import BaseModel
 
 from app import AppConfig
-from app.models.common import Request, Response, BaseORMObject
+from app.models.common import BaseORMObject, Request, Response
 
 
 class BaseFeedback(BaseModel):
@@ -13,7 +14,6 @@ class BaseFeedback(BaseModel):
 
 
 class FeedbackCreateRequest(Request):
-
     class Feedback(BaseFeedback):
         service_name: AppConfig.get_service_names_as_enum()
 
@@ -21,7 +21,6 @@ class FeedbackCreateRequest(Request):
 
 
 class FeedbackCreateResponse(Response):
-
     class Payload(BaseModel):
         id: UUID
 
@@ -29,9 +28,7 @@ class FeedbackCreateResponse(Response):
 
 
 class FeedbackReadAllResponse(Response):
-
     class Payload(BaseModel):
-
         class Feedback(BaseFeedback, BaseORMObject):
             # In case one enum value has been excluded and still exists in the DB, we still want to retrieve it.
             service_name: str

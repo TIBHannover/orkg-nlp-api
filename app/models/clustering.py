@@ -1,8 +1,9 @@
+# -*- coding: utf-8 -*-
 from typing import List
 
 from pydantic import BaseModel
 
-from app.models.common import Predicate, Resource, Response, Request
+from app.models.common import Predicate, Request, Resource, Response
 
 
 class PredicatesClusteringRequest(Request):
@@ -11,7 +12,6 @@ class PredicatesClusteringRequest(Request):
 
 
 class PredicatesClusteringResponse(Response):
-
     class Payload(BaseModel):
         predicates: List[Predicate]
 
@@ -23,9 +23,7 @@ class BioAssaysClusteringRequest(Request):
 
 
 class BioAssaysClusteringResponse(Response):
-
     class Payload(BaseModel):
-
         class BioAssayLabel(BaseModel):
             property: Predicate
             resources: List[Resource]

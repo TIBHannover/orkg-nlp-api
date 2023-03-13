@@ -14,7 +14,7 @@ include:
 
 test-api:
   stage: test
-  image: python:3.7
+  image: python:3.8
   variables:
     ENV: "test"
     LOG_LEVEL: "debug"
@@ -25,4 +25,3 @@ test-api:
     - source `poetry env info --path`/bin/activate
   script:
     - pytest
-

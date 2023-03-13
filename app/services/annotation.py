@@ -1,4 +1,5 @@
-from orkgnlp.annotation import CSNer, AgriNer
+# -*- coding: utf-8 -*-
+from orkgnlp.annotation import AgriNer, CSNer
 
 from app.common.services.wrapper import ResponseWrapper
 from app.services import OrkgNlpApiService
@@ -11,18 +12,18 @@ class CSNerService(OrkgNlpApiService):
         self.annotator = annotator
 
     def annotate(self, title=None, abstract=None):
-        annotations = {'title': [], 'abstract': []}
+        annotations = {"title": [], "abstract": []}
 
         if title and abstract:
             annotations.update(self.annotator(title=title, abstract=abstract))
 
         elif title:
-            annotations['title'] = self.annotator(title=title)
+            annotations["title"] = self.annotator(title=title)
 
         elif abstract:
-            annotations['abstract'] = self.annotator(abstract=abstract)
+            annotations["abstract"] = self.annotator(abstract=abstract)
 
-        return ResponseWrapper.wrap_json({'annotations': annotations})
+        return ResponseWrapper.wrap_json({"annotations": annotations})
 
     @classmethod
     def get_annotator(cls):
@@ -39,9 +40,7 @@ class AgriNerService(OrkgNlpApiService):
         self.annotator = annotator
 
     def annotate(self, title=None):
-        return ResponseWrapper.wrap_json({
-            'annotations': self.annotator(title=title)
-        })
+        return ResponseWrapper.wrap_json({"annotations": self.annotator(title=title)})
 
     @classmethod
     def get_annotator(cls):

@@ -1,6 +1,9 @@
 # ORKG NLP API
 
 [![pipeline status](https://gitlab.com/TIBHannover/orkg/nlp/orkg-nlp-api/badges/main/pipeline.svg)](https://gitlab.com/TIBHannover/orkg/nlp/orkg-nlp-api/-/commits/main)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
 
 REST API for the ORKG-NLP python [package](https://orkg-nlp-pypi.readthedocs.io/en/latest/).
 
@@ -11,14 +14,14 @@ as well as for other services. For a full list please check our
 
 ## Prerequisites
 
-We require a python version `3.7` or above.
-We also require a database connection, whose URI can be specified in the ``.env`` file. 
+We require a python version `3.8` or above.
+We also require a database connection, whose URI can be specified in the ``.env`` file.
 
 Requirement by service:
 
-| Service                    | Requirement(s)    |
-|----------------------------|-------------------|
-| `/tools/pdf/table/extract` | `Java 8` or above |
+| Service                    | Requirement(s)                                           |
+|----------------------------|----------------------------------------------------------|
+| `/tools/pdf/table/extract` | `Java 8` or above                                        |
 | `/tools/pdf/covert`        | [`pdf2htmlEX`](https://github.com/pdf2htmlEX/pdf2htmlEX) |
 
 ## How to run
