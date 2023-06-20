@@ -72,3 +72,6 @@ and are defined in the `.env` file.
 | POSTGRES_PASSWORD                               | Used by docker-compose to set the password of PostgreSQL image                                                                                                                                                                      |                                                                    |
 | POSTGRES_DB                                     | Used by docker-compose to set the database name of PostgreSQL image                                                                                                                                                                 |
 | LOG_LEVEL                                       | Used for the Logger. Possible values: [INFO, WARN, DEBUG, ERROR]. Defaults to DEBUG                                                                                                                                                 |
+
+## License
+[MIT](./LICENSE)
