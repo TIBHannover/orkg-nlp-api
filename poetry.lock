@@ -861,14 +861,14 @@ protobuf = "*"
 
 [[package]]
 name = "orkgnlp"
-version = "0.9.0"
+version = "0.11.2"
 description = "Python package wrapping the ORKG NLP Services."
 category = "main"
 optional = false
-python-versions = ">=3.7.1,<3.10"
+python-versions = ">=3.8,<3.10"
 files = [
-    {file = "orkgnlp-0.9.0-py3-none-any.whl", hash = "sha256:aeb5de7f5dc987fc11993b4d5e8b7f641052cb123a040a1a9c812c3e1bd4e466"},
-    {file = "orkgnlp-0.9.0.tar.gz", hash = "sha256:4dd7ed8b0892c1ca25a3d142d0637cea3e8080e1c8984e57c8831b5c774d26c7"},
+    {file = "orkgnlp-0.11.2-py3-none-any.whl", hash = "sha256:6727ebba941e8a080ade473be94c86d6df08084be817c889bba6ed6d49f1aaeb"},
+    {file = "orkgnlp-0.11.2.tar.gz", hash = "sha256:98732e1b9f5ced07736912254b1c6812799fef08f7602f24f568d1bddb8ea718"},
 ]
 
 [package.dependencies]

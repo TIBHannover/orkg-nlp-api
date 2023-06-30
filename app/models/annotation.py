@@ -6,6 +6,22 @@ from pydantic import BaseModel
 from app.models.common import Annotation, Request, Response
 
 
+class ResearchFieldClassifierRequest(Request):
+    raw_input: str = None
+    top_n: int = None
+
+
+class ResearchFieldClassifierResponse(Response):
+    class Payload(BaseModel):
+        class ResearchFieldClassification(BaseModel):
+            research_field: str
+            score: float
+
+        annotations: List[ResearchFieldClassification]
+
+    payload: Payload
+
+
 class CSNerAnnotationRequest(Request):
     title: str = None
     abstract: str = None

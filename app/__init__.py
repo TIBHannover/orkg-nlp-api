@@ -9,7 +9,7 @@ import dotenv
 dotenv.load_dotenv()
 
 
-__version__ = "0.3.1"
+__version__ = "0.4.1"
 
 
 class AppConfig:
@@ -18,6 +18,7 @@ class AppConfig:
         "BIOASSAYS_SEMANTIFICATION": "/clustering/bioassays",
         "CS_NER": "/annotation/csner",
         "AGRI_NER": "/annotation/agriner",
+        "RESEARCH_FIELD_CLASSIFICATION": "/annotation/rfclf",
         "TEMPLATES_RECOMMENDATION": "/nli/templates",
         "TABLE_EXTRACTION": "/tools/pdf/table/extraction",
         "PDF_CONVERSION": "/tools/pdf/convert",

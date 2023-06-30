@@ -1,8 +1,27 @@
 # -*- coding: utf-8 -*-
-from orkgnlp.annotation import AgriNer, CSNer
+from orkgnlp.annotation import AgriNer, CSNer, ResearchFieldClassifier
 
 from app.common.services.wrapper import ResponseWrapper
 from app.services import OrkgNlpApiService
+
+
+class ResearchFieldClassifierService(OrkgNlpApiService):
+    _annotator: ResearchFieldClassifier = None
+
+    def __init__(self, annotator: ResearchFieldClassifier):
+        self.annotator = annotator
+
+    def annotate(self, raw_input=None, top_n=None):
+        return ResponseWrapper.wrap_json(
+            {"annotations": self.annotator(raw_input=raw_input, top_n=top_n)}
+        )
+
+    @classmethod
+    def get_annotator(cls):
+        if not cls._annotator:
+            cls._annotator = ResearchFieldClassifier()
+
+        return cls._annotator
 
 
 class CSNerService(OrkgNlpApiService):

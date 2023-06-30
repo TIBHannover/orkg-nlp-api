@@ -2,11 +2,22 @@
 from fastapi.testclient import TestClient
 
 from app.main import app
-from app.services.annotation import AgriNerService, CSNerService
-from tests.mock.mock_annotation import AgriNerMock, CSNerMock
+from app.services.annotation import (
+    AgriNerService,
+    CSNerService,
+    ResearchFieldClassifierService,
+)
+from tests.mock.mock_annotation import (
+    AgriNerMock,
+    CSNerMock,
+    ResearchFieldClassifierMock,
+)
 
 app.dependency_overrides[CSNerService.get_annotator] = CSNerMock.get_annotator
 app.dependency_overrides[AgriNerService.get_annotator] = AgriNerMock.get_annotator
+app.dependency_overrides[
+    ResearchFieldClassifierService.get_annotator
+] = ResearchFieldClassifierMock.get_annotator
 client = TestClient(app)
 
 title = "Open Research Knowledge Graph: Next Generation Infrastructure for Semantic Scholarly Knowledge"
@@ -21,6 +32,18 @@ abstract = (
     "that users were intrigued by the novelty of the proposed infrastructure and by the possibilities for innovative "
     "scholarly knowledge processing it could enable."
 )
+
+
+def test_annotates_rfclf_full():
+    top_n = 10
+    response = client.post(
+        "/annotation/rfclf", json={"raw_input": title + "   " + abstract, "top_n": top_n}
+    )
+
+    assert response.status_code == 200
+    assert "payload" in response.json()
+    assert "annotations" in response.json()["payload"]
+    assert len(response.json()["payload"]["annotations"]) == top_n
 
 
 def test_annotates_cs_paper_full():

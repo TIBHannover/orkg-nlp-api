@@ -2,7 +2,7 @@
     "openapi": "3.0.2",
     "info": {
         "title": "ORKG-NLP-API",
-        "version": "0.3.1"
+        "version": "0.4.1"
     },
     "servers": [
         {
@@ -76,6 +76,47 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/BioAssaysClusteringResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/annotation/rfclf": {
+            "post": {
+                "tags": [
+                    "annotation"
+                ],
+                "summary": "Classifies Paper",
+                "operationId": "classifies_paper_annotation_rfclf_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ResearchFieldClassifierRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResearchFieldClassifierResponse"
                                 }
                             }
                         }
@@ -890,6 +931,62 @@
                     }
                 }
             },
+            "ResearchFieldClassification": {
+                "title": "ResearchFieldClassification",
+                "required": [
+                    "research_field",
+                    "score"
+                ],
+                "type": "object",
+                "properties": {
+                    "research_field": {
+                        "title": "Research Field",
+                        "type": "string"
+                    },
+                    "score": {
+                        "title": "Score",
+                        "type": "number"
+                    }
+                }
+            },
+            "ResearchFieldClassifierRequest": {
+                "title": "ResearchFieldClassifierRequest",
+                "type": "object",
+                "properties": {
+                    "raw_input": {
+                        "title": "Raw Input",
+                        "type": "string"
+                    },
+                    "top_n": {
+                        "title": "Top N",
+                        "type": "integer"
+                    }
+                }
+            },
+            "ResearchFieldClassifierResponse": {
+                "title": "ResearchFieldClassifierResponse",
+                "required": [
+                    "timestamp",
+                    "uuid",
+                    "payload"
+                ],
+                "type": "object",
+                "properties": {
+                    "timestamp": {
+                        "title": "Timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "uuid": {
+                        "title": "Uuid",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "payload": {
+                        "$ref": "#/components/schemas/app__models__annotation__ResearchFieldClassifierResponse__Payload"
+                    }
+                }
+            },
             "Resource": {
                 "title": "Resource",
                 "required": [
@@ -915,6 +1012,7 @@
                     "BIOASSAYS_SEMANTIFICATION",
                     "CS_NER",
                     "AGRI_NER",
+                    "RESEARCH_FIELD_CLASSIFICATION",
                     "TEMPLATES_RECOMMENDATION",
                     "TABLE_EXTRACTION",
                     "PDF_CONVERSION",
@@ -1113,6 +1211,22 @@
                 "properties": {
                     "annotations": {
                         "$ref": "#/components/schemas/TitleAbstractAnnotations"
+                    }
+                }
+            },
+            "app__models__annotation__ResearchFieldClassifierResponse__Payload": {
+                "title": "Payload",
+                "required": [
+                    "annotations"
+                ],
+                "type": "object",
+                "properties": {
+                    "annotations": {
+                        "title": "Annotations",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ResearchFieldClassification"
+                        }
                     }
                 }
             },
