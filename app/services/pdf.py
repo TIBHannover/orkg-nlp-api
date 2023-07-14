@@ -5,11 +5,11 @@ import shutil
 import tempfile
 import zlib
 from subprocess import CalledProcessError
-from typing import Dict, Any, BinaryIO
+from typing import Any, BinaryIO, Dict
 
-from bs4 import BeautifulSoup
 import pikepdf
 import tabula
+from bs4 import BeautifulSoup
 from tabula.errors import JavaNotFoundError
 
 from app.common.errors import OrkgNlpApiError
@@ -91,14 +91,14 @@ class PdfService(OrkgNlpApiService):
 
     @staticmethod
     def _extract_metadata(file_bytes: bytes) -> str:
-        metadata_key = b'/Type /(SciKGMetadata|Metadata)'
-        metadata_pattern = re.compile(b'(' + metadata_key + b'.*?)stream(.*?)endstream', re.S)
+        metadata_key = b"/Type /(SciKGMetadata|Metadata)"
+        metadata_pattern = re.compile(b"(" + metadata_key + b".*?)stream(.*?)endstream", re.S)
 
         for header, data in re.findall(metadata_pattern, file_bytes):
-            if '/FlateDecode' in header.decode('utf-8'):
-                return zlib.decompress(data.strip(b'\r\n')).decode('utf-8').strip()
+            if "/FlateDecode" in header.decode("utf-8"):
+                return zlib.decompress(data.strip(b"\r\n")).decode("utf-8").strip()
             else:
-                return data.decode('utf-8').strip()
+                return data.decode("utf-8").strip()
 
     def extract_scikgtex_annotations(self, file: BinaryIO) -> Dict[str, Any]:
         # Temporarily save the file
@@ -110,20 +110,23 @@ class PdfService(OrkgNlpApiService):
             with pikepdf.Pdf.open(temp_file) as pdf_file:
                 # Extraction the metadata from the pdf file
                 if isinstance(pdf_file, pikepdf.Pdf):
-                    metadata = pdf_file.Root.SciKGMetadata.read_bytes().decode() if 'SciKGMetadata' in dir(
-                        pdf_file.Root) else pdf_file.Root.Metadata.read_bytes().decode()
+                    metadata = (
+                        pdf_file.Root.SciKGMetadata.read_bytes().decode()
+                        if "SciKGMetadata" in dir(pdf_file.Root)
+                        else pdf_file.Root.Metadata.read_bytes().decode()
+                    )
                 else:
                     metadata = self._extract_metadata(file.read())
 
                 # parse the metadata
-                metadata = BeautifulSoup(metadata, 'xml')
+                metadata = BeautifulSoup(metadata, "xml")
 
                 # collecting the annotations
-                title = metadata.find('hasTitle').get_text()
-                authors = metadata.find_all('hasAuthor')
-                authors = [{'label': x.get_text()} for x in authors]
-                research_field = metadata.find('hasResearchField').get_text()
-                contributions = metadata.find('ResearchContribution')
+                title = metadata.find("hasTitle").get_text()
+                authors = metadata.find_all("hasAuthor")
+                authors = [{"label": x.get_text()} for x in authors]
+                research_field = metadata.find("hasResearchField").get_text()
+                contributions = metadata.find("ResearchContribution")
                 contributions = contributions.find_all()
 
                 # Get IDs from the backend
@@ -133,24 +136,18 @@ class PdfService(OrkgNlpApiService):
                 for contribution in contributions:
                     predicate_id = service.lookup_orkg_predicate(contribution.name)
                     if predicate_id:
-                        contributions_ids[predicate_id] = [
-                            {'text': contribution.get_text()}
-                        ]
+                        contributions_ids[predicate_id] = [{"text": contribution.get_text()}]
 
                 # Generate the paper request object
                 result = {
-                    'predicates': [],
-                    'paper': {
-                        'title': title,
-                        'authors': authors,
-                        'researchField': research_field_id,
-                        'contributions': [
-                            {
-                                'name': 'Contribution 1',
-                                'values': contributions_ids
-                            },
+                    "predicates": [],
+                    "paper": {
+                        "title": title,
+                        "authors": authors,
+                        "researchField": research_field_id,
+                        "contributions": [
+                            {"name": "Contribution 1", "values": contributions_ids},
                         ],
-                    }
+                    },
                 }
-                return ResponseWrapper.wrap_json({"paper": result})
-
+                return ResponseWrapper.wrap_json(result)

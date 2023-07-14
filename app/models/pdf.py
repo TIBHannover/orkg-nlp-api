@@ -31,7 +31,4 @@ class ExtractTableResponse(Response):
 
 
 class SciKGTeXExtractionResponse(Response):
-    class Payload(BaseModel):
-        paper: Dict[str, List[str]]
-
-    payload: Payload
+    payload: Dict[str, List[str]]
