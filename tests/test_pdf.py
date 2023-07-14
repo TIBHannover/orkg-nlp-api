@@ -42,3 +42,26 @@ def test_convert_pdf():
 
     assert response.status_code == 200
     assert "<!DOCTYPE html>" in response.text
+
+
+def test_scikgtex_extraction():
+    current_dir = os.path.dirname(os.path.realpath(__file__))
+    file = open(os.path.join(current_dir, "files", "scikgtex.pdf"), "rb")
+
+    response = client.post("/tools/pdf/ski-kg-tex/extract", files={"file": ("scikgtex.pdf", file)})
+
+    file.close()
+
+    assert response.status_code == 200
+    assert "payload" in response.json()
+    assert "paper" in response.json()["payload"]
+    assert isinstance(response.json()["payload"]["paper"], dict)
+
+    # The paper has 4 authors
+    assert isinstance(response.json()["payload"]["paper"]["authors"], list)
+    assert len(response.json()["payload"]["paper"]["authors"]) == 4
+
+    # The paper has 1 contribution and the first one has 5 values
+    assert isinstance(response.json()["payload"]["paper"]["contributions"], list)
+    assert len(response.json()["payload"]["paper"]["contributions"]) == 1
+    assert len(response.json()["payload"]["paper"]["contributions"][0]["values"]) == 5
