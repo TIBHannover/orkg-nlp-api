@@ -7,15 +7,14 @@ import requests
 
 from app.services import OrkgNlpApiService
 
-
 DEFAULT_PROPERTIES = {
-    'researchproblem': 'P32',
-    'result': 'P1',
-    'conclusion': 'P7072',
-    'objective': 'P7077',
-    'method': 'P2'
+    "researchproblem": "P32",
+    "result": "P1",
+    "conclusion": "P7072",
+    "objective": "P7077",
+    "method": "P2",
 }
-DEFAULT_RESEARCH_FIELD = 'ResearchField'
+DEFAULT_RESEARCH_FIELD = "ResearchField"
 
 
 # FIXME: This should use the orkg package and not requests directly
