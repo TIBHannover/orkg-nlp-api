@@ -298,6 +298,45 @@
                 }
             }
         },
+        "/tools/pdf/ski-kg-tex/extract": {
+            "post": {
+                "tags": [
+                    "pdf"
+                ],
+                "summary": "Scikgtex Extraction",
+                "operationId": "scikgtex_extraction_tools_pdf_ski_kg_tex_extract_post",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Body_scikgtex_extraction_tools_pdf_ski_kg_tex_extract_post"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/tools/text/summarize": {
             "post": {
                 "tags": [
@@ -660,6 +699,20 @@
                     },
                     "payload": {
                         "$ref": "#/components/schemas/ExtractTableRequest"
+                    }
+                }
+            },
+            "Body_scikgtex_extraction_tools_pdf_ski_kg_tex_extract_post": {
+                "title": "Body_scikgtex_extraction_tools_pdf_ski_kg_tex_extract_post",
+                "required": [
+                    "file"
+                ],
+                "type": "object",
+                "properties": {
+                    "file": {
+                        "title": "File",
+                        "type": "string",
+                        "format": "binary"
                     }
                 }
             },
