@@ -28,3 +28,10 @@ class ExtractTableResponse(Response):
         table: Dict[str, List[str]]
 
     payload: Payload
+
+
+class SciKGTeXExtractionResponse(Response):
+    class Payload(BaseModel):
+        paper: Dict[str, List[str]]
+
+    payload: Payload
