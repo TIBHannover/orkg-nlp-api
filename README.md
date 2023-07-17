@@ -74,5 +74,16 @@ and are defined in the `.env` file.
 | LOG_LEVEL                                     | Used for the Logger. Possible values: [INFO, WARN, DEBUG, ERROR]. Defaults to DEBUG                                                                                                                                                 |
 | ORKG_BACKEND_HOST                             | The ORKG backend host. Default value set to the Sandbox host. Should be adjusted accourding to usecase                                                                                                                              |
 
+## Contributors
+
+As an `orkgnlp` services API, numerous individuals have contributed to the development of the code, ranging from single lines to extensive sections. We would like to express our deepest gratitude to the following individuals for their exceptional contributions:
+- **[Hamed Babaei Giglou](https://github.com/HamedBabaei) - `Current Maintainer`**
+- **[Omar Arab Oghli](https://github.com/omar-araboghli)** - `Main Creature`
+- **[Yaser Jaradeh](https://gitlab.com/YaserJaradeh)** - `Contributor`
+- **[Manuel Prinz](https://gitlab.com/mprinz)** - `Contributor`
+- **[Quentin Münch](https://gitlab.com/QuentinBot)** - `Contributor`
+
+Their dedication and expertise have significantly enriched the codebase, and we are truly grateful for their invaluable contributions.
+
 ## License
 [MIT](./LICENSE)
