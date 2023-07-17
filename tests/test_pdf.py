@@ -65,3 +65,14 @@ def test_scikgtex_extraction():
     assert isinstance(response.json()["payload"]["paper"]["contributions"], list)
     assert len(response.json()["payload"]["paper"]["contributions"]) == 1
     assert len(response.json()["payload"]["paper"]["contributions"][0]["values"]) == 5
+
+
+def test_scikgtex_extraction_should_fail():
+    current_dir = os.path.dirname(os.path.realpath(__file__))
+    file = open(os.path.join(current_dir, "files", "table.pdf"), "rb")
+
+    response = client.post("/tools/pdf/ski-kg-tex/extract", files={"file": ("table.pdf", file)})
+
+    file.close()
+
+    assert response.status_code == 500

@@ -107,47 +107,53 @@ class PdfService(OrkgNlpApiService):
             temp_file.write(file.read())
             temp_file.seek(0)
 
-            with pikepdf.Pdf.open(temp_file) as pdf_file:
-                # Extraction the metadata from the pdf file
-                if isinstance(pdf_file, pikepdf.Pdf):
-                    metadata = (
-                        pdf_file.Root.SciKGMetadata.read_bytes().decode()
-                        if "SciKGMetadata" in dir(pdf_file.Root)
-                        else pdf_file.Root.Metadata.read_bytes().decode()
-                    )
-                else:
-                    metadata = self._extract_metadata(file.read())
+            try:
+                with pikepdf.Pdf.open(temp_file) as pdf_file:
+                    # Extraction the metadata from the pdf file
+                    if isinstance(pdf_file, pikepdf.Pdf):
+                        metadata = (
+                            pdf_file.Root.SciKGMetadata.read_bytes().decode()
+                            if "SciKGMetadata" in dir(pdf_file.Root)
+                            else pdf_file.Root.Metadata.read_bytes().decode()
+                        )
+                    else:
+                        metadata = self._extract_metadata(file.read())
 
-                # parse the metadata
-                metadata = BeautifulSoup(metadata, "xml")
+                    # parse the metadata
+                    metadata = BeautifulSoup(metadata, "xml")
 
-                # collecting the annotations
-                title = metadata.find("hasTitle").get_text()
-                authors = metadata.find_all("hasAuthor")
-                authors = [{"label": x.get_text()} for x in authors]
-                research_field = metadata.find("hasResearchField").get_text()
-                contributions = metadata.find("ResearchContribution")
-                contributions = contributions.find_all()
+                    # collecting the annotations
+                    title = metadata.find("hasTitle").get_text()
+                    authors = metadata.find_all("hasAuthor")
+                    authors = [{"label": x.get_text()} for x in authors]
+                    research_field = metadata.find("hasResearchField").get_text()
+                    contributions_description = metadata.find("ResearchContribution")
+                    predicates = contributions_description.find_all()
 
-                # Get IDs from the backend
-                service = OrkgBackendService()
-                research_field_id = service.lookup_orkg_research_field(research_field)
-                contributions_ids = {}
-                for contribution in contributions:
-                    predicate_id = service.lookup_orkg_predicate(contribution.name)
-                    if predicate_id:
-                        contributions_ids[predicate_id] = [{"text": contribution.get_text()}]
+                    # Get IDs from the backend
+                    service = OrkgBackendService()
+                    research_field_id = service.lookup_orkg_research_field(research_field)
+                    contributions_ids = {}
+                    for predicate in predicates:
+                        predicate_id = service.lookup_orkg_predicate(predicate.name)
+                        if predicate_id:
+                            contributions_ids[predicate_id] = [{"text": predicate.get_text()}]
 
-                # Generate the paper request object
-                result = {
-                    "predicates": [],
-                    "paper": {
-                        "title": title,
-                        "authors": authors,
-                        "researchField": research_field_id,
-                        "contributions": [
-                            {"name": "Contribution 1", "values": contributions_ids},
-                        ],
-                    },
-                }
-                return ResponseWrapper.wrap_json(result)
+                    # Generate the paper request object
+                    result = {
+                        "predicates": [],
+                        "paper": {
+                            "title": title,
+                            "authors": authors,
+                            "researchField": research_field_id,
+                            "contributions": [
+                                {"name": "Contribution 1", "values": contributions_ids},
+                            ],
+                        },
+                    }
+                    return ResponseWrapper.wrap_json(result)
+            except AttributeError:
+                # Following EAFP principle
+                raise OrkgNlpApiError(
+                    "Seems the PDF doesn't have any SciKGTeX annotations.", self.__class__
+                )
