@@ -78,7 +78,7 @@ and are defined in the `.env` file.
 
 As an `orkgnlp` services API, numerous individuals have contributed to the development of the code, ranging from single lines to extensive sections. We would like to express our deepest gratitude to the following individuals for their exceptional contributions:
 - **[Hamed Babaei Giglou](https://github.com/HamedBabaei) - `Current Maintainer`**
-- **[Omar Arab Oghli](https://github.com/omar-araboghli)** - `Main Creature`
+- **[Omar Arab Oghli](https://github.com/omar-araboghli)** - `Main Creator`
 - **[Yaser Jaradeh](https://gitlab.com/YaserJaradeh)** - `Contributor`
 - **[Manuel Prinz](https://gitlab.com/mprinz)** - `Contributor`
 - **[Quentin Münch](https://gitlab.com/QuentinBot)** - `Contributor`
