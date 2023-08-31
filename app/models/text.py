@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from typing import List
+from typing import Any, Dict, List
 
 from pydantic import BaseModel
 
@@ -28,5 +28,18 @@ class ClassifySentenceResponse(Response):
         labels: List[str]
         scores: List[float]
         sequence: str
+
+    payload: Payload
+
+
+class ChatgptRequest(Request):
+    task_name: str
+    placeholders: Dict[str, Any]
+    temperature: float
+
+
+class ChatgptResponse(Response):
+    class Payload(BaseModel):
+        arguments: Dict[str, Any]
 
     payload: Payload

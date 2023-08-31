@@ -9,8 +9,10 @@ from app.models.text import (
     ClassifySentenceResponse,
     SummarizeTextRequest,
     SummarizeTextResponse,
+    ChatgptRequest,
+    ChatgptResponse,
 )
-from app.services.text import ClassifierService, SummarizerService
+from app.services.text import ClassifierService, SummarizerService, ChatgptService
 
 router = APIRouter(prefix="/text", tags=["text"])
 
@@ -33,3 +35,10 @@ def classifies_sentence(
 ):
     service = ClassifierService(classifier)
     return service.classify(request.sentence, request.labels)
+
+
+@router.post("/chatgpt", response_model=ChatgptResponse, status_code=200)
+@log(__name__)
+def chat_gpt(request: ChatgptRequest):
+    chatgpt_service = ChatgptService()
+    return chatgpt_service.completion(request.task_name, request.placeholders, request.temperature)

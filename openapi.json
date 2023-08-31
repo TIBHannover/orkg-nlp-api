@@ -419,6 +419,47 @@
                 }
             }
         },
+        "/tools/text/chatgpt": {
+            "post": {
+                "tags": [
+                    "text"
+                ],
+                "summary": "Chat Gpt",
+                "operationId": "chat_gpt_tools_text_chatgpt_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ChatgptRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ChatgptResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/feedback/": {
             "get": {
                 "tags": [
@@ -751,6 +792,53 @@
                     },
                     "payload": {
                         "$ref": "#/components/schemas/app__models__annotation__CSNerAnnotationResponse__Payload"
+                    }
+                }
+            },
+            "ChatgptRequest": {
+                "title": "ChatgptRequest",
+                "required": [
+                    "task_name",
+                    "placeholders",
+                    "temperature"
+                ],
+                "type": "object",
+                "properties": {
+                    "task_name": {
+                        "title": "Task Name",
+                        "type": "string"
+                    },
+                    "placeholders": {
+                        "title": "Placeholders",
+                        "type": "object"
+                    },
+                    "temperature": {
+                        "title": "Temperature",
+                        "type": "number"
+                    }
+                }
+            },
+            "ChatgptResponse": {
+                "title": "ChatgptResponse",
+                "required": [
+                    "timestamp",
+                    "uuid",
+                    "payload"
+                ],
+                "type": "object",
+                "properties": {
+                    "timestamp": {
+                        "title": "Timestamp",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "uuid": {
+                        "title": "Uuid",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "payload": {
+                        "$ref": "#/components/schemas/app__models__text__ChatgptResponse__Payload"
                     }
                 }
             },
@@ -1437,6 +1525,19 @@
                                 "type": "string"
                             }
                         }
+                    }
+                }
+            },
+            "app__models__text__ChatgptResponse__Payload": {
+                "title": "Payload",
+                "required": [
+                    "arguments"
+                ],
+                "type": "object",
+                "properties": {
+                    "arguments": {
+                        "title": "Arguments",
+                        "type": "object"
                     }
                 }
             },
