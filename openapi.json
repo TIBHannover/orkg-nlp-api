@@ -799,8 +799,7 @@
                 "title": "ChatgptRequest",
                 "required": [
                     "task_name",
-                    "placeholders",
-                    "temperature"
+                    "placeholders"
                 ],
                 "type": "object",
                 "properties": {

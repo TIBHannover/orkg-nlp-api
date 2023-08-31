@@ -52,8 +52,8 @@ class ClassifierService(OrkgNlpApiService):
 
 class ChatgptService(OrkgNlpApiService):
     def __init__(self):
-        openai.api_key = os.getenv("OPENAI_API_KEY")
-        openai.organization = os.getenv("OPENAI_ORGANIZATION")
+        openai.api_key = os.getenv("OPENAI_API_KEY", "")
+        openai.organization = os.getenv("OPENAI_ORGANIZATION", "")
 
         self.tasks = {
             "recommendComparisonProperties": {
@@ -141,24 +141,37 @@ class ChatgptService(OrkgNlpApiService):
     def completion(
         self,
         task_name,
-        placeholders={},
+        placeholders,
         temperature=0.2,
     ):
-        task = self.tasks[task_name]
-        completion = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            temperature=temperature,
-            messages=[
-                {"role": "system", "content": task["systemPrompt"]},
-                {"role": "user", "content": task["userPrompt"](placeholders)},
-            ],
-            functions=task["functions"],
-            function_call="auto",
-        )
+        task = self.tasks.get(task_name)
+        if task is None:
+            raise OrkgNlpApiError(f"Task with name '{task_name}' does not exist", self.__class__)
+
         try:
+            user_message = task["userPrompt"](placeholders)
+        except KeyError as exception:
+            raise OrkgNlpApiError(
+                "The placeholder specification does not match the requirements", self.__class__
+            ) from exception
+
+        try:
+            completion = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                temperature=temperature,
+                messages=[
+                    {"role": "system", "content": task["systemPrompt"]},
+                    {"role": "user", "content": user_message},
+                ],
+                functions=task["functions"],
+                function_call="auto",
+            )
+
             return ResponseWrapper.wrap_json(
                 {"arguments": json.loads(completion.choices[0].message.function_call.arguments)}
             )
+        except openai.error.RateLimitError as exception:
+            raise OrkgNlpApiError("OpenAI quota exceeded", self.__class__) from exception
         except JSONDecodeError as exception:
             raise OrkgNlpApiError(
                 "Something went wrong with parsing the ChatGPT response in JSON", self.__class__

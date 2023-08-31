@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from typing import Any, Dict, List
+from typing import Any, Dict, Optional, List
 
 from pydantic import BaseModel
 
@@ -35,7 +35,7 @@ class ClassifySentenceResponse(Response):
 class ChatgptRequest(Request):
     task_name: str
     placeholders: Dict[str, Any]
-    temperature: float
+    temperature: Optional[float]
 
 
 class ChatgptResponse(Response):
