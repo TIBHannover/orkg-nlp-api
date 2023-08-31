@@ -5,14 +5,14 @@ from transformers import Pipeline
 
 from app.common.util.decorators import log
 from app.models.text import (
+    ChatgptRequest,
+    ChatgptResponse,
     ClassifySentenceRequest,
     ClassifySentenceResponse,
     SummarizeTextRequest,
     SummarizeTextResponse,
-    ChatgptRequest,
-    ChatgptResponse,
 )
-from app.services.text import ClassifierService, SummarizerService, ChatgptService
+from app.services.text import ChatgptService, ClassifierService, SummarizerService
 
 router = APIRouter(prefix="/text", tags=["text"])
 

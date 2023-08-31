@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-import os
-import openai
 import json
-
+import os
 from json.decoder import JSONDecodeError
+
+import openai
 from summarizer import Summarizer
 from transformers import Pipeline, pipeline
 
@@ -57,8 +57,12 @@ class ChatgptService(OrkgNlpApiService):
 
         self.tasks = {
             "recommendComparisonProperties": {
-                "systemPrompt": "A comparison is a tabular overview of literature, where in the rows properties of paper are compared. Your task is to recommend additional related properties based on the set of user provided properties. Provide maximum 5 properties.",
-                "userPrompt": lambda placeholders: f"The existing properties are: {', '.join([placeholders['properties'][key]['label'] for key in placeholders['properties']])}",
+                "systemPrompt": "A comparison is a tabular overview of literature, "
+                "where in the rows properties of paper are compared. "
+                "Your task is to recommend additional related properties based on "
+                "the set of user provided properties. Provide maximum 5 properties.",
+                "userPrompt": lambda placeholders: f"The existing properties are: "
+                f"{', '.join([placeholders['properties'][key]['label'] for key in placeholders['properties']])}",
                 "functions": [
                     {
                         "name": "getProperties",
@@ -80,7 +84,9 @@ class ChatgptService(OrkgNlpApiService):
                 ],
             },
             "recommendResearchProblem": {
-                "systemPrompt": "A research problem contains a maximum of approximately 5 words to explain the research task or topic. Provide a list of maximum 5 research problem based on the title and abstract provided by the user.",
+                "systemPrompt": "A research problem contains a maximum of approximately 5 words "
+                "to explain the research task or topic. Provide a list of maximum 5 research problem "
+                "based on the title and abstract provided by the user.",
                 "userPrompt": lambda placeholders: placeholders["paperTitle"],
                 "functions": [
                     {
@@ -103,7 +109,10 @@ class ChatgptService(OrkgNlpApiService):
                 ],
             },
             "checkDescriptiveness": {
-                "systemPrompt": "Is the user-provided comparison description descriptive enough? A description should explain at least the contents and objectives. Return in JSON, return 'isDescriptive' true or false for the descriptiveness, and 'reason' then add a brief explanation.",
+                "systemPrompt": "Is the user-provided comparison description descriptive enough? "
+                "A description should explain at least the contents and objectives. "
+                "Return in JSON, return 'isDescriptive' true or false for the descriptiveness, "
+                "and 'reason' then add a brief explanation.",
                 "userPrompt": lambda placeholders: placeholders["value"],
                 "functions": [
                     {
@@ -118,7 +127,8 @@ class ChatgptService(OrkgNlpApiService):
                                 },
                                 "explanation": {
                                     "type": "string",
-                                    "description": "A brief one paragraph explanation explaining how the descriptiveness was determined",
+                                    "description": "A brief one paragraph explanation explaining how "
+                                    "the descriptiveness was determined",
                                 },
                             },
                             "required": ["isDescriptive", "explanation"],
