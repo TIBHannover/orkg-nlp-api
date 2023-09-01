@@ -5,12 +5,14 @@ from transformers import Pipeline
 
 from app.common.util.decorators import log
 from app.models.text import (
+    ChatgptRequest,
+    ChatgptResponse,
     ClassifySentenceRequest,
     ClassifySentenceResponse,
     SummarizeTextRequest,
     SummarizeTextResponse,
 )
-from app.services.text import ClassifierService, SummarizerService
+from app.services.text import ChatgptService, ClassifierService, SummarizerService
 
 router = APIRouter(prefix="/text", tags=["text"])
 
@@ -33,3 +35,10 @@ def classifies_sentence(
 ):
     service = ClassifierService(classifier)
     return service.classify(request.sentence, request.labels)
+
+
+@router.post("/chatgpt", response_model=ChatgptResponse, status_code=200)
+@log(__name__)
+def chat_gpt(request: ChatgptRequest):
+    chatgpt_service = ChatgptService()
+    return chatgpt_service.completion(request.task_name, request.placeholders, request.temperature)
