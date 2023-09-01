@@ -53,7 +53,7 @@ class ClassifierService(OrkgNlpApiService):
 class ChatgptService(OrkgNlpApiService):
     def __init__(self):
         openai.api_key = os.getenv("OPENAI_API_KEY", "")
-        openai.organization = os.getenv("OPENAI_ORGANIZATION", "")
+        openai.organization = os.getenv("OPENAI_ORGANIZATION_ID", "")
 
         self.tasks = {
             "recommendComparisonProperties": {
