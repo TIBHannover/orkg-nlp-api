@@ -56,38 +56,39 @@ class ChatgptService(OrkgNlpApiService):
         openai.organization = os.getenv("OPENAI_ORGANIZATION_ID", "")
 
         self.tasks = {
-            "recommendComparisonProperties": {
-                "systemPrompt": "A comparison is a tabular overview of literature, "
-                "where in the rows properties of paper are compared. "
-                "Your task is to recommend additional related properties based on "
-                "the set of user provided properties. Provide maximum 5 properties.",
-                "userPrompt": lambda placeholders: f"The existing properties are: "
-                f"{', '.join([placeholders['properties'][key]['label'] for key in placeholders['properties']])}",
+            "recommendProperties": {
+                "systemPrompt": "You are an assistant for building a knowledge graph for science. "
+                "Your task is to recommend additional related predicates based on "
+                "the set of existing predicates. Recommend a list maximum 5 additional predicates.",
+                "userPrompt": lambda placeholders: f"The existing predicates are: "
+                f"{', '.join(placeholders['properties'])}",
                 "functions": [
                     {
                         "name": "getProperties",
-                        "description": "Get a array of newly recommended comparison properties",
+                        "description": "The array of additionally recommended properties",
                         "parameters": {
                             "type": "object",
                             "properties": {
-                                "comparisonProperties": {
+                                "properties": {
                                     "type": "array",
-                                    "description": "The new comparison property",
+                                    "description": "The recommended properties",
                                     "items": {
                                         "type": "string",
                                     },
                                 },
                             },
-                            "required": ["comparisonProperties"],
+                            "required": ["properties"],
                         },
                     },
                 ],
             },
-            "recommendResearchProblem": {
-                "systemPrompt": "A research problem contains a maximum of approximately 5 words "
-                "to explain the research task or topic. Provide a list of maximum 5 research problem "
-                "based on the title and abstract provided by the user.",
-                "userPrompt": lambda placeholders: placeholders["paperTitle"],
+            "recommendResearchProblems": {
+                "systemPrompt": "A research problem contains a maximum of approximately 4 words "
+                "to explain the research task or topic of a paper. Provide a list of maximum 5 research problems "
+                "based on the title and optionally abstract provided by the user.",
+                "userPrompt": lambda placeholders: placeholders["paperTitle"]
+                + " "
+                + placeholders["abstract"],
                 "functions": [
                     {
                         "name": "getResearchProblems",
@@ -95,7 +96,7 @@ class ChatgptService(OrkgNlpApiService):
                         "parameters": {
                             "type": "object",
                             "properties": {
-                                "researchProblems": {
+                                "values": {
                                     "type": "array",
                                     "description": "The research problems",
                                     "items": {
@@ -103,35 +104,154 @@ class ChatgptService(OrkgNlpApiService):
                                     },
                                 },
                             },
-                            "required": ["researchProblems"],
+                            "required": ["values"],
+                        },
+                    },
+                ],
+            },
+            "recommendMethods": {
+                "systemPrompt": "Extract a list of maximum 5 methods from a scientific paper "
+                "based on the title and optionally abstract provided by the user. "
+                "if no methods are found, return an empty array.",
+                "userPrompt": lambda placeholders: placeholders["paperTitle"]
+                + " "
+                + placeholders["abstract"],
+                "functions": [
+                    {
+                        "name": "getMethods",
+                        "description": "Get a array of methods",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "values": {
+                                    "type": "array",
+                                    "description": "The methods",
+                                    "items": {
+                                        "type": "string",
+                                    },
+                                },
+                            },
+                            "required": ["values"],
+                        },
+                    },
+                ],
+            },
+            "recommendMaterials": {
+                "systemPrompt": "Extract a list of maximum 5 materials that are used in a scientific paper."
+                "Extract it from the title and optionally abstract provided by the user. "
+                "if no materials are found, return an empty array.",
+                "userPrompt": lambda placeholders: placeholders["paperTitle"]
+                + " "
+                + placeholders["abstract"],
+                "functions": [
+                    {
+                        "name": "getMaterials",
+                        "description": "Get a array of materials",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "values": {
+                                    "type": "array",
+                                    "description": "The materials",
+                                    "items": {
+                                        "type": "string",
+                                    },
+                                },
+                            },
+                            "required": ["values"],
                         },
                     },
                 ],
             },
             "checkDescriptiveness": {
-                "systemPrompt": "Is the user-provided comparison description descriptive enough? "
-                "A description should explain at least the contents and objectives. "
-                "Return in JSON, return 'isDescriptive' true or false for the descriptiveness, "
-                "and 'reason' then add a brief explanation.",
+                "systemPrompt": "Provide feedback to a user on how to improve a provided description text. The "
+                "description text should give information about the objectives and topics of a scientific "
+                "tabular related work overview. ",
                 "userPrompt": lambda placeholders: placeholders["value"],
                 "functions": [
                     {
-                        "name": "getDescriptiveness",
-                        "description": "Determine whether a provided description is descriptive enough",
+                        "name": "getFeedback",
+                        "description": "Get feedback for the provided description",
                         "parameters": {
                             "type": "object",
                             "properties": {
-                                "isDescriptive": {
-                                    "type": "boolean",
-                                    "description": "Whether the description is descriptive enough",
-                                },
-                                "explanation": {
+                                "feedback": {
                                     "type": "string",
-                                    "description": "A brief one paragraph explanation explaining how "
-                                    "the descriptiveness was determined",
+                                    "description": "The feedback for the provided description",
                                 },
                             },
-                            "required": ["isDescriptive", "explanation"],
+                            "required": ["feedback"],
+                        },
+                    },
+                ],
+            },
+            "checkResourceDestructuring": {
+                "systemPrompt": "You are an assistant for building a knowledge graph for science. Provide advice on if "
+                "and how to decompose a provided resource label into separate resources. Only provide feedback is "
+                "decomposing makes sense. Return the feedback in JSON.",
+                "userPrompt": lambda placeholders: placeholders["label"],
+                "functions": [
+                    {
+                        "name": "provideDecomposeFeedback",
+                        "description": "Provide feedback on how a resource label can be decomposed",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "feedback": {
+                                    "type": "string",
+                                    "description": "A brief one paragraph explanation explaining how "
+                                    "the resource can be decomposed",
+                                },
+                            },
+                            "required": ["feedback"],
+                        },
+                    },
+                ],
+            },
+            "checkIfLiteralTypeIsCorrect": {
+                "systemPrompt": "You are an assistant in building a knowledge graph for science. You task is to advice "
+                "users whether they should use a RDF resource or RDF literal. Based on a user-provided label, advice "
+                "whether the type should be 'literal' or 'resource'. Literals are generally larger pieces of text and "
+                "are not reusable, resource are atomic and can be reused. Return in JSON.",
+                "userPrompt": lambda placeholders: placeholders["label"],
+                "functions": [
+                    {
+                        "name": "getFeedback",
+                        "description": "Provide feedback on whether the label should be a 'literal' or 'resource'",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "feedback": {
+                                    "type": "string",
+                                    "description": "Brief one paragraph explanation why the type should be literal or "
+                                    "resource",
+                                },
+                            },
+                            "required": ["feedback"],
+                        },
+                    },
+                ],
+            },
+            "checkPropertyLabelGuidelines": {
+                "systemPrompt": "You are an assistant in building a knowledge graph for science. Provide feedback "
+                "whether the provided predicate label is generic enough to make it reusable in the graph and explain "
+                "how to make it more generic. Examples of properties that are not reusable: population in Berlin "
+                "(because it contains a location), temperature in degrees Celsius (because it contains a unit). "
+                "Return in JSON.",
+                "userPrompt": lambda placeholders: f"The label is: '{placeholders['label']}'",
+                "functions": [
+                    {
+                        "name": "getFeedback",
+                        "description": "Determine whether the label is generic enough to make it reusable in the graph",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "feedback": {
+                                    "type": "string",
+                                    "description": "Feedback whether the property is reusable or not",
+                                }
+                            },
+                            "required": ["feedback"],
                         },
                     },
                 ],
