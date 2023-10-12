@@ -298,18 +298,18 @@
                 }
             }
         },
-        "/tools/pdf/ski-kg-tex/extract": {
+        "/tools/pdf/sci-kg-tex/extract": {
             "post": {
                 "tags": [
                     "pdf"
                 ],
                 "summary": "Scikgtex Extraction",
-                "operationId": "scikgtex_extraction_tools_pdf_ski_kg_tex_extract_post",
+                "operationId": "scikgtex_extraction_tools_pdf_sci_kg_tex_extract_post",
                 "requestBody": {
                     "content": {
                         "multipart/form-data": {
                             "schema": {
-                                "$ref": "#/components/schemas/Body_scikgtex_extraction_tools_pdf_ski_kg_tex_extract_post"
+                                "$ref": "#/components/schemas/Body_scikgtex_extraction_tools_pdf_sci_kg_tex_extract_post"
                             }
                         }
                     },
@@ -743,8 +743,8 @@
                     }
                 }
             },
-            "Body_scikgtex_extraction_tools_pdf_ski_kg_tex_extract_post": {
-                "title": "Body_scikgtex_extraction_tools_pdf_ski_kg_tex_extract_post",
+            "Body_scikgtex_extraction_tools_pdf_sci_kg_tex_extract_post": {
+                "title": "Body_scikgtex_extraction_tools_pdf_sci_kg_tex_extract_post",
                 "required": [
                     "file"
                 ],
