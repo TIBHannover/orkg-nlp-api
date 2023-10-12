@@ -35,7 +35,7 @@ class OrkgBackendService(OrkgNlpApiService):
         host = self._classes_host + "/ResearchField/resources/?"
         host += parser.urlencode({"q": research_field, "exact": True})
         response = requests.request("GET", host).json()
-        if response:
+        if response and len(response["content"]) > 0:
             return response["content"][0]["id"]
         else:
             return DEFAULT_RESEARCH_FIELD
@@ -46,7 +46,7 @@ class OrkgBackendService(OrkgNlpApiService):
         host = self._predicates_host + "/?"
         host += parser.urlencode({"q": predicate_lbl, "exact": True})
         response = requests.request("GET", host).json()
-        if response:
+        if response and len(response["content"]) > 0:
             return response["content"][0]["id"]
         else:
             return None
