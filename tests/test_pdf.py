@@ -91,7 +91,7 @@ def test_scikgtex_extraction_should_fail():
     current_dir = os.path.dirname(os.path.realpath(__file__))
     file = open(os.path.join(current_dir, "files", "table.pdf"), "rb")
 
-    response = client.post("/tools/pdf/ski-kg-tex/extract", files={"file": ("table.pdf", file)})
+    response = client.post("/tools/pdf/sci-kg-tex/extract", files={"file": ("table.pdf", file)})
 
     file.close()
 
