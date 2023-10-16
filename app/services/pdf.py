@@ -135,7 +135,13 @@ class PdfService(OrkgNlpApiService):
                     research_field_id = service.lookup_orkg_research_field(research_field)
                     contributions_ids = {}
                     for predicate in predicates:
-                        predicate_id = service.lookup_orkg_predicate(predicate.name)
+                        # FIXME: https://gitlab.com/TIBHannover/orkg/nlp/orkg-nlp-api/-/issues/19
+                        if predicate.name == "research_problem":
+                            predicate_id = "P32"
+                        else:
+                            predicate_id = service.lookup_orkg_predicate(
+                                predicate.name.replace("_", " ")
+                            )
                         if predicate_id:
                             contributions_ids[predicate_id] = [{"text": predicate.get_text()}]
 

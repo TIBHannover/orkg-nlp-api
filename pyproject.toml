@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "orkg-nlp-api"
-version = "0.6.0"
+version = "0.6.1"
 description = "REST API to ORKG-NLP"
 authors = ["Omar Arab Oghli <omar.araboghli@outlook.com>", "Hamed Babaei Giglou <hamedbabaeigiglou@gmail.com>"]
 maintainers = ["Hamed Babaei Giglou <hamedbabaeigiglou@gmail.com>"]

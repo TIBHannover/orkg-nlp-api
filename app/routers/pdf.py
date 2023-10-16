@@ -25,7 +25,7 @@ def converts_pdf(file: UploadFile):
     return pdf_service.convert_pdf(file.file)
 
 
-@router.post("/ski-kg-tex/extract", response_class=JSONResponse, status_code=200)
+@router.post("/sci-kg-tex/extract", response_class=JSONResponse, status_code=200)
 @log(__name__)
 def scikgtex_extraction(file: UploadFile):
     pdf_service = PdfService()
