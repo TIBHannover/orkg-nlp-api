@@ -80,6 +80,7 @@ As an `orkgnlp` services API, numerous individuals have contributed to the devel
 - **[Hamed Babaei Giglou](https://github.com/HamedBabaei) - `Current Maintainer`**
 - **[Omar Arab Oghli](https://github.com/omar-araboghli)** - `Main Creator`
 - **[Yaser Jaradeh](https://gitlab.com/YaserJaradeh)** - `Contributor`
+- **[Allard Oelen](https://gitlab.com/aoelen)** - `Contributor`
 - **[Manuel Prinz](https://gitlab.com/mprinz)** - `Contributor`
 - **[Quentin Münch](https://gitlab.com/QuentinBot)** - `Contributor`
 
