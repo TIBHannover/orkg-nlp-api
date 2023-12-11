@@ -2,6 +2,7 @@
 import json
 import os
 from json.decoder import JSONDecodeError
+from typing import Dict
 
 import openai
 from summarizer import Summarizer
@@ -71,6 +72,7 @@ class ChatgptService(OrkgNlpApiService):
             "recommendResearchProblems": RecommendResearchProblemsTask(),
             "recommendMethods": RecommendMethodsTask(),
             "recommendMaterials": RecommendMaterialsTask(),
+            # Used for the ORKG Chrome Plugin
             "recommendPropertiesFromText": RecommendPropertiesFromTextTask(),
             "checkDescriptiveness": CheckDescriptivenessTask(),
             "checkResourceDestructuring": CheckResourceDestructuringTask(),
@@ -80,16 +82,16 @@ class ChatgptService(OrkgNlpApiService):
 
     def completion(
         self,
-        task_name,
-        placeholders,
-        temperature=0.2,
+        task_name: str,
+        placeholders: Dict,
+        temperature: float = 0.2,
     ):
         task = self.tasks.get(task_name)
         if task is None:
             raise OrkgNlpApiError(f"Task with name '{task_name}' does not exist", self.__class__)
 
         try:
-            user_message = task.format_user_prompt(placeholders)
+            user_message = task.format_user_prompt(**placeholders)
         except KeyError as exception:
             raise OrkgNlpApiError(
                 "The placeholder specification does not match the requirements", self.__class__

@@ -14,8 +14,8 @@ class Task:
         self.user_prompt = user_prompt
         self.functions = functions
 
-    def format_user_prompt(self, *args) -> str:
-        return self.user_prompt.format(*args)
+    def format_user_prompt(self, **kwargs) -> str:
+        return self.user_prompt.format(**kwargs)
 
 
 ########################
@@ -51,6 +51,13 @@ class RecommendPropertiesTask(Task):
             ],
         )
 
+    def format_user_prompt(self, **kwargs) -> str:
+        """
+        This is a special case where the user prompt is formatted with a list of properties.
+        Hence, we need to override the default behaviour of the base class formatting function.
+        """
+        return self.user_prompt.format(", ".join(kwargs["properties"]))
+
 
 class RecommendResearchProblemsTask(Task):
     def __init__(self):
@@ -58,7 +65,7 @@ class RecommendResearchProblemsTask(Task):
             "A research problem contains a maximum of approximately 4 words "
             "to explain the research task or topic of a paper. Provide a list of maximum 5 research problems "
             "based on the title and optionally abstract provided by the user.",
-            "{0} {1}",
+            "{paperTitle} {abstract}",
             [
                 {
                     "name": "getResearchProblems",
@@ -87,7 +94,7 @@ class RecommendMethodsTask(Task):
             "Extract a list of maximum 5 methods from a scientific paper "
             "based on the title and optionally abstract provided by the user. "
             "if no methods are found, return an empty array.",
-            "{0} {1}",
+            "{paperTitle} {abstract}",
             [
                 {
                     "name": "getMethods",
@@ -116,7 +123,7 @@ class RecommendMaterialsTask(Task):
             "Extract a list of maximum 5 materials that are used in a scientific paper."
             "Extract it from the title and optionally abstract provided by the user. "
             "if no materials are found, return an empty array.",
-            "{0} {1}",
+            "{paperTitle} {abstract}",
             [
                 {
                     "name": "getMaterials",
@@ -145,7 +152,7 @@ class RecommendPropertiesFromTextTask(Task):
             "Act as an ORKG researcher. Return in JSON. Provide only property names "
             "without values or extra information. Recommend a maximum of 3 to 4 properties for each text "
             "selection.",
-            "Find the best property names for the selected text: {1}",
+            "Find the best property names for the selected text: {selectedText}",
             [
                 {
                     "name": "getProperties",
@@ -179,7 +186,7 @@ class CheckDescriptivenessTask(Task):
             "Provide feedback to a user on how to improve a provided description text. The "
             "description text should give information about the objectives and topics of a scientific "
             "tabular related work overview. ",
-            "{0}",
+            "{value}",
             [
                 {
                     "name": "getFeedback",
@@ -205,7 +212,7 @@ class CheckResourceDestructuringTask(Task):
             "You are an assistant for building a knowledge graph for science. Provide advice on if "
             "and how to decompose a provided resource label into separate resources. Only provide feedback is "
             "decomposing makes sense. Return the feedback in JSON.",
-            "{0}",
+            "{label}",
             [
                 {
                     "name": "provideDecomposeFeedback",
@@ -233,7 +240,7 @@ class CheckIfLiteralTypeIsCorrectTask(Task):
             "users whether they should use a RDF resource or RDF literal. Based on a user-provided label, advice "
             "whether the type should be 'literal' or 'resource'. Literals are generally larger pieces of text and "
             "are not reusable, resource are atomic and can be reused. Return in JSON.",
-            "{0}",
+            "{label}",
             [
                 {
                     "name": "getFeedback",
@@ -262,7 +269,7 @@ class CheckPropertyLabelGuidelinesTask(Task):
             "how to make it more generic. Examples of properties that are not reusable: population in Berlin "
             "(because it contains a location), temperature in degrees Celsius (because it contains a unit). "
             "Return in JSON.",
-            "The label is: {0}",
+            "The label is: {label}",
             [
                 {
                     "name": "getFeedback",
