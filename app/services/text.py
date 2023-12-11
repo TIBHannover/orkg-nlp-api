@@ -256,6 +256,33 @@ class ChatgptService(OrkgNlpApiService):
                     },
                 ],
             },
+            # Used for the ORKG Chrome Plugin
+            "recommendPropertiesFromText": {
+                "systemPrompt": "Act as an ORKG researcher. Return in JSON. Provide only property names "
+                "without values or extra information. Recommend a maximum of 3 to 4 properties for each text "
+                "selection.",
+                "userPrompt": lambda placeholders: f"Find the best property names for the selected text:"
+                f"{placeholders['selectedText']}",
+                "functions": [
+                    {
+                        "name": "getProperties",
+                        "description": "The array of additionally recommended properties",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "properties": {
+                                    "type": "array",
+                                    "description": "The recommended properties",
+                                    "items": {
+                                        "type": "string",
+                                    },
+                                },
+                            },
+                            "required": ["properties"],
+                        },
+                    },
+                ],
+            },
         }
 
     def completion(
